@@ -63,6 +63,10 @@ void timeCopy(struct timespec *dest, struct timespec *source) {
 	memcpy(dest, source, sizeof(struct timespec));
 }
 //-----------------------------------------------------------------------------
+//Credits
+
+extern void CreditsPage(int);
+//-----------------------------------------------------------------------------
 
 class Image {
 public:
@@ -125,6 +129,8 @@ Image img[4] = {
 
 class Global {
 public:
+    int credits;
+
 	int done;
 	int xres, yres;
 	GLuint bigfootTexture;
@@ -286,6 +292,7 @@ void render(void);
 
 int main()
 {
+    g.credits = 0;
 	initOpengl();
 	init();
 	clock_gettime(CLOCK_REALTIME, &timePause);
@@ -565,6 +572,12 @@ int checkKeys(XEvent *e)
 		case XK_r:
 			g.showRain ^= 1;
 			break;
+        case XK_c:
+            if (g.credits == 1) {
+                g.credits = 0;
+            } else {
+                g.credits = 1;
+            }
 		case XK_Left:
 			VecCopy(umbrella.pos, umbrella.lastpos);
 			umbrella.pos[0] -= 10.0;
@@ -983,5 +996,11 @@ void render()
 	ggprint8b(&r, 16, c, "R - Rain");
 	ggprint8b(&r, 16, c, "D - Deflection");
 	ggprint8b(&r, 16, c, "N - Sounds");
+
+    if (g.credits) {
+        CreditsPage(g.yres);
+    }
+
+
 }
 

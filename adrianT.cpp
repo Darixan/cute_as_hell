@@ -1,10 +1,14 @@
-/*#include "fonts.h"
+#include "fonts.h"
 
-void CreditsPage()
+void CreditsPage(int yres)
 {
     Rect credit;
     Rect name;
     
-    ggprint12(credit, 16, 0x00ff0000, "Adrian Jay Telan");
-    ggprint12()
-.*/
+    name.bot = yres;
+    name.left = 10;
+    name.center = 0;
+
+    //ggprint8b(&credit, 16, 0x00ff0000, "Character Design");
+    ggprint8b(&name, 16, 0x00ff0000, "Adrian Jay Telan");
+}
