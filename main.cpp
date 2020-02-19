@@ -66,6 +66,8 @@ void timeCopy(struct timespec *dest, struct timespec *source) {
 //Credits
 
 extern void CreditsPage(int);
+extern void MC_Credits(int);
+
 //-----------------------------------------------------------------------------
 
 class Image {
@@ -999,6 +1001,8 @@ void render()
 
     if (g.credits) {
         CreditsPage(g.yres);
+        MC_Credits(g.yres);
+    	
     }
 
 
