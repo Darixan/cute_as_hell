@@ -63,11 +63,10 @@ void timeCopy(struct timespec *dest, struct timespec *source) {
 	memcpy(dest, source, sizeof(struct timespec));
 }
 //-----------------------------------------------------------------------------
-//Credits
-
-extern void CreditsPage(int);
+//Credits Page Method Prototypes
+extern void CreditsTitle(int);
 extern void MC_Credits(int);
-
+extern void AT_Credits(int);
 //-----------------------------------------------------------------------------
 
 class Image {
@@ -1000,9 +999,9 @@ void render()
 	ggprint8b(&r, 16, c, "N - Sounds");
 
     if (g.credits) {
-        CreditsPage(g.yres);
+        CreditsTitle(g.yres);
         MC_Credits(g.yres);
-    	
+        AT_Credits(g.yres);
     }
 
 
