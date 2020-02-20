@@ -24,7 +24,7 @@ void AT_Credits(int yres)
     Rect name;
     //Rect credit;
 
-    name.bot = yres - 190;
+    name.bot = yres - 180;
     name.left = 10;
     name.center = 0;
 
