@@ -73,6 +73,7 @@ extern void AT_Credits(int);
 
 //Class Quiz
 extern void PrintTasks(int);
+extern void Main_Menu(int);
 
 //-----------------------------------------------------------------------------
 
@@ -1004,6 +1005,7 @@ void render()
 	ggprint8b(&r, 16, c, "R - Rain");
 	ggprint8b(&r, 16, c, "D - Deflection");
 	ggprint8b(&r, 16, c, "N - Sounds");
+        Main_Menu(g.yres);
 
     if (g.credits) {
         CreditsTitle(g.yres);
