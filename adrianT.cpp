@@ -1,6 +1,6 @@
 //Class:            Software Engineering 3350
 //Author:           Adrian Jay Telan
-//Last Modified:    19 Feb 2020
+//Last Modified:    20 Feb 2020
 //File:             adrianT.cpp
 //Project:          cute_as_hell
 //Main location:    main.cpp
@@ -16,30 +16,6 @@
 //-----------------------------------------------------------------------------
 //Player Class method definitions
 
-bool Player::isRolling(bool rollState)
-{
-    if (rollState)
-        return true;
-    else
-        return false;
-}
-
-bool Player::isShooting(bool shootState)
-{
-    if (shootState)
-        return true;
-    else
-        return false;
-}
-
-bool Player::isHit(bool hitState)
-{
-    if (hitState)
-        return true;
-    else
-        return false;
-}
-
 int Player::getHp()
 {
     return hp;
@@ -50,20 +26,6 @@ void Player::setHp(int newHp)
     hp = newHp;
 }
 
-void Player::setRolling(bool rollState)
-{
-    rolling = rollState;
-}
-
-void Player::setShooting(bool shootState)
-{
-    shooting = shootState;
-}
-
-void Player::setHit(bool hitState)
-{
-    hit = hitState;
-}
 //-----------------------------------------------------------------------------
 
 void CreditsTitle(int yres)

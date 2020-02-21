@@ -1,8 +1,11 @@
 
-//3350
-//program: rainforest.cpp
-//author:  Gordon Griesel
-//date:    2013 to 2018
+//Class:            Software Engineering 3350
+//Program:          rainforest.cpp
+//Author:           Gordon Griesel
+//Date:             2013 to 2018
+//
+//Modified by:      Melanie Corral and Adrian Telan
+//Last modified:    20 Feb 2020
 //
 //This program demonstrates the use of OpenGL and XWindows
 //

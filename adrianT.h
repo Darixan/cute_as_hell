@@ -20,27 +20,25 @@ public:
     //Public Properties
     Vec pos;
     Vec vel; 
+    bool isRunning;
+    bool isRolling;
+    bool isShooting;
+    bool wasHit;
+    
 
     //Public methods
-    bool isRolling(bool rollState);
-    bool isShooting(bool shootState);
-    bool isHit(bool hitState);
+    
 
     //Accessor functions
     int getHp();
 
     //Mutator functions
     void setHp(int newHp);
-    void setRolling(bool rollState);
-    void setShooting(bool shootState);
-    void setHit(bool hitState);
 
 private:
     //Private Properties
     int hp;
-    bool rolling;
-    bool shooting;
-    bool hit;
 };
 
+extern void drawPlayer();
 #endif
