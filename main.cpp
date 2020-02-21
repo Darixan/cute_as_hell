@@ -5,7 +5,7 @@
 //Date:             2013 to 2018
 //
 //Modified by:      Melanie Corral and Adrian Telan
-//Last modified:    20 Feb 2020
+//Last modified:    21 Feb 2020
 //
 //This program demonstrates the use of OpenGL and XWindows
 //
@@ -70,6 +70,10 @@ void timeCopy(struct timespec *dest, struct timespec *source) {
 extern void CreditsTitle(int);
 extern void MC_Credits(int);
 extern void AT_Credits(int);
+
+//Class Quiz
+extern void PrintTasks(int);
+
 //-----------------------------------------------------------------------------
 
 class Image {
@@ -1005,6 +1009,7 @@ void render()
         CreditsTitle(g.yres);
         MC_Credits(g.yres);
         AT_Credits(g.yres);
+        PrintTasks(g.yres);
     }
 
 

@@ -1,6 +1,6 @@
 //Class:            Software Engineering 3350
 //Author:           Adrian Jay Telan
-//Last Modified:    20 Feb 2020
+//Last Modified:    21 Feb 2020
 //File:             adrianT.cpp
 //Project:          cute_as_hell
 //Main location:    main.cpp
@@ -12,6 +12,7 @@
 
 #include "fonts.h"
 #include "adrianT.h"
+#include "rainforest.h"
 
 //-----------------------------------------------------------------------------
 //Player Class method definitions
@@ -69,6 +70,7 @@ void Player::setHp(int newHp)
 
 //-----------------------------------------------------------------------------
 
+//Prints the word 'Credits' to the screen
 void CreditsTitle(int yres)
 {
     Rect TCredit;
@@ -79,6 +81,8 @@ void CreditsTitle(int yres)
 
     ggprint12(&TCredit, 16, 0x00ff0000, "Credits");
 }
+
+//Prints my name in the credits section
 void AT_Credits(int yres)
 {
     
@@ -91,4 +95,37 @@ void AT_Credits(int yres)
 
     //ggprint8b(&credit, 16, 0x00ff0000, "Character Design");
     ggprint8b(&name, 16, 0x00ff0000, "Adrian Jay Telan");
+}
+
+//Prints the current tasks I'm working on onto the screen
+void PrintTasks(int yres)
+{
+    Rect taskList;
+    Rect task[3];
+
+    taskList.bot = yres - 320;
+    taskList.left = 10;
+    taskList.center = 0;
+
+    ggprint12(&taskList, 16, 0x00ff0000, "TASKS");
+
+    for (int i = 0; i < 3; i++) {
+	    task[i].bot = yres - 350 - 20*i;
+	    task[i].left = 10;
+	    task[i].center = 0;
+
+	    if (i == 0) {
+	        ggprint8b(&task[i], 16, 0x00ff0000, 
+                    "Analyze rainforest framework");
+        }
+
+        if (i == 1) {
+            ggprint8b(&task[i], 16, 0x00ff0000, 
+                    "Analyze walk framework");
+        }
+
+        if (i == 2) {
+            ggprint8b(&task[i], 16, 0x00ff0000, "Get good at programming");
+        }
+    }
 }
