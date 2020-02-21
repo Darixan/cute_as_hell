@@ -16,11 +16,52 @@
 //-----------------------------------------------------------------------------
 //Player Class method definitions
 
+//Public Methods
+void Player::run()
+{
+    if (isRolling || isHit)
+        return;
+}
+
+void Player::shoot()
+{
+    if (isRolling || isHit)
+        return;
+}
+
+void Player::roll()
+{
+    if (isRolling)
+        return;
+}
+
+//Constructor
+Player::Player(int initHp, Vec initPos)
+{
+    hp = initHp;
+    pos[0] = initPos[0];
+    pos[1] = initPos[1];
+    pos[2] = initPos[2];
+
+    //int speed = 0;
+
+    vel[0] = 0;
+    vel[1] = 0;
+    vel[2] = 0;
+
+    isRunning = false;
+    isRolling = false;
+    isShooting = false;
+    isHit = false;
+}
+
+//Accessors
 int Player::getHp()
 {
     return hp;
 }
 
+//Mutators
 void Player::setHp(int newHp)
 {
     hp = newHp;

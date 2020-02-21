@@ -13,26 +13,34 @@
 #define _ADRIANT_H_
 
 //Defined types
-typedef double Vec[2];
+typedef double Vec[3];
 
 class Player {
 public:
     //Public Properties
     Vec pos;
     Vec vel; 
+
+    int speed;  
+
     bool isRunning;
     bool isRolling;
     bool isShooting;
-    bool wasHit;
+    bool isHit;
     
+    //Public Methods
+    void run();
+    void shoot();
+    void roll();
+    void isDamaged(int damage);
 
-    //Public methods
+    //Constructors and Destructors
+    Player(int initHp, Vec initPos);
     
-
-    //Accessor functions
+    //Accessors
     int getHp();
 
-    //Mutator functions
+    //Mutators
     void setHp(int newHp);
 
 private:
