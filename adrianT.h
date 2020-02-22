@@ -33,6 +33,7 @@ public:
     void shoot();
     void roll();
     void isDamaged(int damage);
+    void drawPlayer();
 
     //Constructors and Destructors
     Player(int initHp, Vec initPos);
@@ -47,6 +48,4 @@ private:
     //Private Properties
     int hp;
 };
-
-extern void drawPlayer();
 #endif

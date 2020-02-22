@@ -9,14 +9,16 @@
 //
 //Will contain function definitions of player-related methods.
 
+#include <GL/glx.h>
 
 #include "fonts.h"
 #include "adrianT.h"
 #include "rainforest.h"
 
 //-----------------------------------------------------------------------------
-//Player Class method definitions
+//=================Class and Method definitions for 'adrianT.h'================
 
+//Player Class method definitions
 //Public Methods
 void Player::run()
 {
@@ -34,6 +36,21 @@ void Player::roll()
 {
     if (isRolling)
         return;
+}
+
+void Player::drawPlayer()
+{
+    int playerSize = 25;
+
+    glDisable(GL_TEXTURE_2D);
+    glColor3f(0.2f, 0.0f, 0.0f);
+    glBegin(GL_QUADS);
+        glVertex2f(pos[0] - playerSize, pos[1] - playerSize);
+        glVertex2f(pos[0] - playerSize, pos[1] + playerSize);
+        glVertex2f(pos[0] + playerSize, pos[1] + playerSize);
+        glVertex2f(pos[0] + playerSize, pos[1] - playerSize);
+    glEnd();
+    glEnable(GL_TEXTURE_2D);
 }
 
 //Constructor
@@ -128,4 +145,18 @@ void PrintTasks(int yres)
             ggprint8b(&task[i], 16, 0x00ff0000, "Get good at programming");
         }
     }
+}
+
+//Draws a square
+void DrawSquare(int yres)
+{
+    glDisable(GL_TEXTURE_2D);
+    glColor3f(0.0f, 0.2f, 0.0f);
+    glBegin(GL_QUADS);
+        glVertex2f(0, yres - 120);
+        glVertex2f(0, yres - 410);
+        glVertex2f(200, yres - 410);
+        glVertex2f(200, yres - 120);
+    glEnd();
+    glEnable(GL_TEXTURE_2D);
 }

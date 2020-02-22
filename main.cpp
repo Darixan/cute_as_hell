@@ -25,6 +25,8 @@
 //#include <GL/glu.h>
 #include <X11/keysym.h>
 #include <GL/glx.h>
+
+#include "adrianT.h"
 #include "log.h"
 //#include "ppm.h"
 #include "fonts.h"
@@ -74,6 +76,9 @@ extern void AT_Credits(int);
 //Class Quiz
 extern void PrintTasks(int);
 extern void Main_Menu(int);
+
+//Methods from 'adrianT.cpp'
+extern void DrawSquare(int);
 
 //-----------------------------------------------------------------------------
 
@@ -553,19 +558,30 @@ int checkKeys(XEvent *e)
 		return 0;
 	}
 	switch (key) {
+
+        //Adrian: Skeleton for Movement Controls (W,A,S,D)
+        case XK_w:
+            break;
+        case XK_A:
+            break;
+        case XK_S:
+            break;
+        case XK_D:
+            break;
+
 		case XK_b:
 			g.showBigfoot ^= 1;
 			if (g.showBigfoot) {
 				bigfoot.pos[0] = -250.0;
 			}
 			break;
-		case XK_d:
+		case XK_j:
 			g.deflection ^= 1;
 			break;
 		case XK_f:
 			g.forest ^= 1;
 			break;
-		case XK_s:
+		case XK_o:
 			g.silhouette ^= 1;
 			printf("silhouette: %i\n", g.silhouette);
 			break;
@@ -613,7 +629,7 @@ int checkKeys(XEvent *e)
 			break;
 		case XK_n:
 			break;
-		case XK_w:
+		case XK_i:
 			if (shift) {
 				//shrink the umbrella
 				umbrella.width *= (1.0 / 1.05);
@@ -999,20 +1015,26 @@ void render()
 	r.center = 0;
 	ggprint8b(&r, 16, c, "B - Bigfoot");
 	ggprint8b(&r, 16, c, "F - Forest");
-	ggprint8b(&r, 16, c, "S - Silhouette");
+	ggprint8b(&r, 16, c, "O - Silhouette");
 	ggprint8b(&r, 16, c, "T - Trees");
 	ggprint8b(&r, 16, c, "U - Umbrella");
 	ggprint8b(&r, 16, c, "R - Rain");
-	ggprint8b(&r, 16, c, "D - Deflection");
+	ggprint8b(&r, 16, c, "J - Deflection");
 	ggprint8b(&r, 16, c, "N - Sounds");
         Main_Menu(g.yres);
 
+    Vec playerVec = {g.xres/2.0 , g.yres/2.0, 0};
+    Player player(100, playerVec);
+ 
     if (g.credits) {
+        DrawSquare(g.yres);
         CreditsTitle(g.yres);
         MC_Credits(g.yres);
         AT_Credits(g.yres);
         PrintTasks(g.yres);
     }
+    
+    player.drawPlayer();
 
 
 }
