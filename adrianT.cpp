@@ -15,9 +15,8 @@
 #include "adrianT.h"
 #include "rainforest.h"
 
+//===============Class and Method definitions from 'adrianT.h'=================
 //-----------------------------------------------------------------------------
-//=================Class and Method definitions for 'adrianT.h'================
-
 //Player Class method definitions
 //Public Methods
 void Player::run()
@@ -43,7 +42,7 @@ void Player::drawPlayer()
     int playerSize = 25;
 
     glDisable(GL_TEXTURE_2D);
-    glColor3f(0.2f, 0.0f, 0.0f);
+    glColor3f(0.4f, 0.1f, 0.1f);
     glBegin(GL_QUADS);
         glVertex2f(pos[0] - playerSize, pos[1] - playerSize);
         glVertex2f(pos[0] - playerSize, pos[1] + playerSize);
@@ -84,6 +83,44 @@ void Player::setHp(int newHp)
 {
     hp = newHp;
 }
+
+//-----------------------------------------------------------------------------
+//Platform Class method definitions
+
+//Public Methods
+void Platform::drawPlatf(int length)
+{
+    glDisable(GL_TEXTURE_2D);
+    glColor3f(0.0f, 0.0f, 0.0f);
+    
+    for (int i = 0; i < length; i++) {
+        pos[0] += 2 * size;
+        glBegin(GL_QUADS);
+            glVertex2f(pos[0] - size, pos[1] + size);
+            glVertex2f(pos[0] + size, pos[1] + size);
+            glVertex2f(pos[0] + size, pos[1] - size);
+            glVertex2f(pos[0] - size, pos[1] - size);
+        glEnd();
+    }
+}
+
+//Constructors
+Platform::Platform(int platfSize, Vec initPos, Vec initVel)
+{
+    size = platfSize;
+    
+    pos[0] = initPos[0];
+    pos[1] = initPos[1];
+    pos[2] = initPos[2];
+
+    vel[0] = initVel[0];
+    vel[1] = initVel[1];
+    vel[2] = initVel[2];
+}
+
+//Accessors
+
+//Mutators
 
 //-----------------------------------------------------------------------------
 

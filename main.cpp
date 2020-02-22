@@ -1021,10 +1021,18 @@ void render()
 	ggprint8b(&r, 16, c, "R - Rain");
 	ggprint8b(&r, 16, c, "J - Deflection");
 	ggprint8b(&r, 16, c, "N - Sounds");
-        Main_Menu(g.yres);
 
-    Vec playerVec = {g.xres/2.0 , g.yres/2.0, 0};
-    Player player(100, playerVec);
+
+//-----------------------------------------------------------------------------
+//Our space to test entity rendering
+    Main_Menu(g.yres);
+
+    Vec playerPos = {g.xres/2.0 , g.yres/2.0, 0.0};
+    Player player(100, playerPos);
+
+    Vec groundPos = {g.xres/10.0, g.yres/10.0, 0.0};
+    Vec groundVel = {0.0 ,0.0 ,0.0};
+    Platform ground(20, groundPos, groundVel);
  
     if (g.credits) {
         DrawSquare(g.yres);
@@ -1033,7 +1041,7 @@ void render()
         AT_Credits(g.yres);
         PrintTasks(g.yres);
     }
-    
+    ground.drawPlatf(10);
     player.drawPlayer();
 
 

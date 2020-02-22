@@ -1,6 +1,6 @@
 //Class:            Software Engineering 3350
 //Author:           Adrian Jay Telan
-//Last Modified:    20 Feb 2020
+//Last Modified:    21 Feb 2020
 //File:             adrianT.h
 //Project:          cute_as_hell
 //Main location:    main.cpp
@@ -47,5 +47,21 @@ public:
 private:
     //Private Properties
     int hp;
+};
+
+class Platform {
+public:
+    //Public Properties
+    Vec pos;
+    Vec vel;
+
+    int size;
+
+    //Public Methods
+    void drawPlatf(int length); 
+
+    //Constructors
+    Platform(int platfSize, Vec initPos, Vec initVel);
+
 };
 #endif
