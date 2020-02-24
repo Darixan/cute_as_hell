@@ -79,7 +79,7 @@ extern void Main_Menu(int);
 
 //Methods from 'adrianT.cpp'
 extern void DrawSquare(int);
-
+extern void Enemy(int);
 //-----------------------------------------------------------------------------
 
 class Image {
@@ -1026,6 +1026,7 @@ void render()
 //-----------------------------------------------------------------------------
 //Our space to test entity rendering
     Main_Menu(g.yres);
+    Enemy(g.yres);
 
     Vec playerPos = {g.xres/2.0 , g.yres/2.0, 0.0};
     Player player(100, playerPos);
