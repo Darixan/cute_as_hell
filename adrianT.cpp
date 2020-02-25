@@ -15,14 +15,21 @@
 #include "adrianT.h"
 #include "rainforest.h"
 
+//Method Prototypes
+
 //===============Class and Method definitions from 'adrianT.h'=================
 //-----------------------------------------------------------------------------
 //Player Class method definitions
 //Public Methods
-void Player::run()
+void Player::run(int input)
 {
+    vel[0] = (float)input;
     if (isRolling || isHit)
         return;
+    else {
+        pos[0] += vel[0];
+        return;
+    }
 }
 
 void Player::shoot()
@@ -52,6 +59,27 @@ void Player::drawPlayer()
     glEnable(GL_TEXTURE_2D);
 }
 
+void Player::checkGrounded(Platform ground)
+{
+    int plSoles = pos[1] - 25;
+    int plRight = pos[0] + 25;
+    int plLeft = pos[0] - 25;
+
+
+    if (plSoles <= ground.top && plRight >= ground.left && 
+            plLeft <= ground.right) {
+        isGrounded = true;
+        vel[1] = 0;
+        if (!(plRight <= ground.left && plLeft >= ground.right))
+            pos[1] = ground.top + 25;
+    } else {
+        isGrounded = false;
+        vel[1] -= 0.2;
+        vel[1] *= 1.1;
+        pos[1] += vel[1];
+    }
+}
+
 //Constructor
 Player::Player(int initHp, Vec initPos)
 {
@@ -67,6 +95,7 @@ Player::Player(int initHp, Vec initPos)
     vel[2] = 0;
 
     isRunning = false;
+    isGrounded = false;
     isRolling = false;
     isShooting = false;
     isHit = false;
@@ -90,8 +119,14 @@ void Player::setHp(int newHp)
 //Public Methods
 void Platform::drawPlatf(int length)
 {
+    top = pos[1] + size;
+    center = pos[0] + ((length - 1) * size);
+    left = center - ((length) * size);
+    right = center + ((length) * size);
+    bottom = pos[1] - size;
+    
     glDisable(GL_TEXTURE_2D);
-    glColor3f(0.0f, 0.0f, 0.0f);
+    glColor3f(0.0f, 0.0f, 0.2f);
     
     for (int i = 0; i < length; i++) {
         pos[0] += 2 * size;
@@ -102,13 +137,15 @@ void Platform::drawPlatf(int length)
             glVertex2f(pos[0] - size, pos[1] - size);
         glEnd();
     }
+    
+   glEnable(GL_TEXTURE_2D);
 }
 
 //Constructors
 Platform::Platform(int platfSize, Vec initPos, Vec initVel)
 {
     size = platfSize;
-    
+     
     pos[0] = initPos[0];
     pos[1] = initPos[1];
     pos[2] = initPos[2];
@@ -197,3 +234,4 @@ void DrawSquare(int yres)
     glEnd();
     glEnable(GL_TEXTURE_2D);
 }
+

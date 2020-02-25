@@ -15,6 +15,28 @@
 //Defined types
 typedef double Vec[3];
 
+
+class Platform {
+public:
+    //Public Properties
+    Vec pos;
+    Vec vel;
+
+    int size;
+    int top;
+    int center;
+    int left;
+    int right;
+    int bottom;
+
+    //Public Methods
+    void drawPlatf(int length); 
+
+    //Constructors
+    Platform(int platfSize, Vec initPos, Vec initVel);
+
+};
+
 class Player {
 public:
     //Public Properties
@@ -24,16 +46,18 @@ public:
     int speed;  
 
     bool isRunning;
+    bool isGrounded;
     bool isRolling;
     bool isShooting;
     bool isHit;
     
     //Public Methods
-    void run();
+    void run(int input);
     void shoot();
     void roll();
     void isDamaged(int damage);
     void drawPlayer();
+    void checkGrounded(Platform ground);
 
     //Constructors and Destructors
     Player(int initHp, Vec initPos);
@@ -49,19 +73,4 @@ private:
     int hp;
 };
 
-class Platform {
-public:
-    //Public Properties
-    Vec pos;
-    Vec vel;
-
-    int size;
-
-    //Public Methods
-    void drawPlatf(int length); 
-
-    //Constructors
-    Platform(int platfSize, Vec initPos, Vec initVel);
-
-};
 #endif

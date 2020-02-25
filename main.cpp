@@ -5,7 +5,7 @@
 //Date:             2013 to 2018
 //
 //Modified by:      Melanie Corral and Adrian Telan
-//Last modified:    21 Feb 2020
+//Last modified:    24 Feb 2020
 //
 //This program demonstrates the use of OpenGL and XWindows
 //
@@ -295,6 +295,16 @@ public:
 	}
 } x11;
 
+//*****Player Class Instantiation*****
+Vec playerPos = {g.xres/2.0 , g.yres/2.0, 0.0};
+Player player(100, playerPos);
+
+//****Platform Class Instantiation*****
+Vec groundPos = {g.xres/10.0, g.yres/10.0, 0.0};
+Vec groundVel = {0.0 ,0.0 ,0.0};
+int groundSize = 20;
+Platform ground(groundSize, groundPos, groundVel);
+
 //function prototypes
 void initOpengl(void);
 void checkMouse(XEvent *e);
@@ -562,11 +572,13 @@ int checkKeys(XEvent *e)
         //Adrian: Skeleton for Movement Controls (W,A,S,D)
         case XK_w:
             break;
-        case XK_A:
+        case XK_a:
+            player.run(-10);
             break;
-        case XK_S:
+        case XK_s:
             break;
-        case XK_D:
+        case XK_d:
+            player.run(10);
             break;
 
 		case XK_b:
@@ -875,6 +887,8 @@ void checkRaindrops()
 
 void physics()
 {
+    player.checkGrounded(ground);
+    //player.run(5);
 	if (g.showBigfoot)
 		moveBigfoot();
 	if (g.showRain)
@@ -1028,13 +1042,15 @@ void render()
     Main_Menu(g.yres);
     Enemy(g.yres);
 
-    Vec playerPos = {g.xres/2.0 , g.yres/2.0, 0.0};
-    Player player(100, playerPos);
+    //Vec playerPos = {g.xres/2.0 , g.yres/2.0, 0.0};
+    //Player player(100, playerPos);
 
-    Vec groundPos = {g.xres/10.0, g.yres/10.0, 0.0};
-    Vec groundVel = {0.0 ,0.0 ,0.0};
-    Platform ground(20, groundPos, groundVel);
- 
+    //Vec groundPos = {g.xres/10.0, g.yres/10.0, 0.0};
+    //Vec groundVel = {0.0 ,0.0 ,0.0};
+    //Platform ground(20, groundPos, groundVel);
+
+    //Platform test(20, groundPos, groundVel); 
+
     if (g.credits) {
         DrawSquare(g.yres);
         CreditsTitle(g.yres);
@@ -1042,9 +1058,14 @@ void render()
         AT_Credits(g.yres);
         PrintTasks(g.yres);
     }
-    ground.drawPlatf(10);
-    player.drawPlayer();
 
+    ground.pos[0] = groundPos[0];
+    ground.pos[1] = groundPos[1];
+    ground.size = groundSize;
+    ground.drawPlatf(10);
+
+    player.drawPlayer();
+    //test.drawPlatf(10);
 
 }
 
