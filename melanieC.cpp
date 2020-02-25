@@ -36,7 +36,7 @@ void Main_Menu(int yres)
 	r.center = 0;
         ggprint16(&r, 16, c, "Beta Test");
 }
-void Enemy(int yres)
+void Enemy::drawEnemy(int yres)
 {
     glDisable(GL_TEXTURE_2D);
     glColor3ub(242, 83, 0);

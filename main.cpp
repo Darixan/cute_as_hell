@@ -27,6 +27,7 @@
 #include <GL/glx.h>
 
 #include "adrianT.h"
+#include "melanieC.h"
 #include "log.h"
 //#include "ppm.h"
 #include "fonts.h"
@@ -79,7 +80,6 @@ extern void Main_Menu(int);
 
 //Methods from 'adrianT.cpp'
 extern void DrawSquare(int);
-extern void Enemy(int);
 //-----------------------------------------------------------------------------
 
 class Image {
@@ -298,6 +298,8 @@ public:
 //*****Player Class Instantiation*****
 Vec playerPos = {g.xres/2.0 , g.yres/2.0, 0.0};
 Player player(100, playerPos);
+
+Enemy enemy;
 
 //****Platform Class Instantiation*****
 Vec groundPos = {g.xres/10.0, g.yres/10.0, 0.0};
@@ -888,7 +890,7 @@ void checkRaindrops()
 void physics()
 {
     player.checkGrounded(ground);
-    //player.run(5);
+    player.run(5);
 	if (g.showBigfoot)
 		moveBigfoot();
 	if (g.showRain)
@@ -1040,7 +1042,7 @@ void render()
 //-----------------------------------------------------------------------------
 //Our space to test entity rendering
     Main_Menu(g.yres);
-    Enemy(g.yres);
+    enemy.drawEnemy(g.yres);
 
     //Vec playerPos = {g.xres/2.0 , g.yres/2.0, 0.0};
     //Player player(100, playerPos);

@@ -32,8 +32,7 @@ class Enemy {
 	bool isAttacking;
 	bool isHit;
 
-	void drawEnemy();
-	Enemy();
+	void drawEnemy(int);
 
 };
 
