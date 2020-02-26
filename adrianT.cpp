@@ -126,24 +126,22 @@ void Player::roll()
 
 void Player::drawPlayer()
 {
-    int playerSize = 25;
-
     glDisable(GL_TEXTURE_2D);
     glColor3f(0.4f, 0.1f, 0.1f);
     glBegin(GL_QUADS);
-        glVertex2f(pos[0] - playerSize, pos[1] - playerSize);
-        glVertex2f(pos[0] - playerSize, pos[1] + playerSize);
-        glVertex2f(pos[0] + playerSize, pos[1] + playerSize);
-        glVertex2f(pos[0] + playerSize, pos[1] - playerSize);
+        glVertex2f(pos[0] - size, pos[1] - size);
+        glVertex2f(pos[0] - size, pos[1] + size);
+        glVertex2f(pos[0] + size, pos[1] + size);
+        glVertex2f(pos[0] + size, pos[1] - size);
     glEnd();
     glEnable(GL_TEXTURE_2D);
 }
 
 void Player::checkGrounded(Platform ground)
 {
-    int plSoles = pos[1] - 25;
-    int plRight = pos[0] + 25;
-    int plLeft = pos[0] - 25;
+    int plSoles = pos[1] - size;
+    int plRight = pos[0] + size;
+    int plLeft = pos[0] - size;
 
 
     if (plSoles <= ground.top && plRight >= ground.left && 
@@ -161,7 +159,7 @@ void Player::checkGrounded(Platform ground)
 }
 
 //Constructor
-Player::Player(int initHp, Vec initPos)
+Player::Player(int initHp, int playerSize, Vec initPos)
 {
     hp = initHp;
     pos[0] = initPos[0];
@@ -169,6 +167,7 @@ Player::Player(int initHp, Vec initPos)
     pos[2] = initPos[2];
 
     //int speed = 0;
+    size = playerSize;
 
     vel[0] = 0;
     vel[1] = 0;

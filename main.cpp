@@ -297,7 +297,7 @@ public:
 
 //*****Player Class Instantiation*****
 Vec playerPos = {g.xres/2.0 , g.yres/2.0, 0.0};
-Player player(100, playerPos);
+Player player(100, 25, playerPos);
 
 Enemy enemy;
 

@@ -63,7 +63,8 @@ public:
     Vec pos;
     Vec vel; 
 
-    int speed;  
+    //int speed;  
+    int size;
 
     bool isRunning;
     bool isGrounded;
@@ -80,7 +81,7 @@ public:
     void checkGrounded(Platform ground);
 
     //Constructors and Destructors
-    Player(int initHp, Vec initPos);
+    Player(int initHp, int playerSize, Vec initPos);
     
     //Accessors
     int getHp();
