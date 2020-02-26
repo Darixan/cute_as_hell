@@ -1,6 +1,6 @@
 //Class:            Software Engineering 3350
 //Author:           Adrian Jay Telan
-//Last Modified:    21 Feb 2020
+//Last Modified:    26 Feb 2020
 //File:             adrianT.h
 //Project:          cute_as_hell
 //Main location:    main.cpp
@@ -15,6 +15,26 @@
 //Defined types
 typedef double Vec[3];
 
+class Bullet {
+public:
+    //Public Properties
+    Vec pos;
+    Vec vel;
+
+    int size;
+    int top;
+    int left;
+    int right;
+    int bottom;
+
+    //Public Methods
+    void drawBullet();
+    void moveBullet();
+    void bulletTracer();
+
+    //Constructors
+    Bullet(int bulletSize, Vec initPos, Vec initVel);
+};
 
 class Platform {
 public:

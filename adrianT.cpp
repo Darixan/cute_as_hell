@@ -1,6 +1,6 @@
 //Class:            Software Engineering 3350
 //Author:           Adrian Jay Telan
-//Last Modified:    21 Feb 2020
+//Last Modified:    26 Feb 2020
 //File:             adrianT.cpp
 //Project:          cute_as_hell
 //Main location:    main.cpp
@@ -19,7 +19,87 @@
 
 //===============Class and Method definitions from 'adrianT.h'=================
 //-----------------------------------------------------------------------------
+//Bullet Class method definitions
+
+//Public Methods
+void Bullet::drawBullet() 
+{
+    glDisable(GL_TEXTURE_2D);
+    glColor3f(1.0f, 1.0f, 0.0f);
+    glBegin(GL_QUADS);
+        glVertex2f(pos[0] - size, pos[1] + size);
+        glVertex2f(pos[0] + size, pos[1] + size);
+        glVertex2f(pos[0] + size, pos[1] - size);
+        glVertex2f(pos[0] - size, pos[1] - size);
+    glEnd();
+    glEnable(GL_TEXTURE_2D);
+}
+
+void Bullet::moveBullet()
+{
+    
+}
+
+void Bullet::bulletTracer()
+{
+
+}
+
+//Constructors
+Bullet::Bullet(int bulletSize, Vec initPos, Vec initVel)
+{
+
+}
+
+//-----------------------------------------------------------------------------
+//Platform Class method definitions
+
+//Public Methods
+void Platform::drawPlatf(int length)
+{
+    top = pos[1] + size;
+    center = pos[0] + ((length - 1) * size);
+    left = center - ((length) * size);
+    right = center + ((length) * size);
+    bottom = pos[1] - size;
+    
+    glDisable(GL_TEXTURE_2D);
+    glColor3f(0.0f, 0.0f, 0.2f);
+    
+    for (int i = 0; i < length; i++) {
+        pos[0] += 2 * size;
+        glBegin(GL_QUADS);
+            glVertex2f(pos[0] - size, pos[1] + size);
+            glVertex2f(pos[0] + size, pos[1] + size);
+            glVertex2f(pos[0] + size, pos[1] - size);
+            glVertex2f(pos[0] - size, pos[1] - size);
+        glEnd();
+    }
+    
+   glEnable(GL_TEXTURE_2D);
+}
+
+//Constructors
+Platform::Platform(int platfSize, Vec initPos, Vec initVel)
+{
+    size = platfSize;
+     
+    pos[0] = initPos[0];
+    pos[1] = initPos[1];
+    pos[2] = initPos[2];
+
+    vel[0] = initVel[0];
+    vel[1] = initVel[1];
+    vel[2] = initVel[2];
+}
+
+//Accessors
+
+//Mutators
+
+//-----------------------------------------------------------------------------
 //Player Class method definitions
+
 //Public Methods
 void Player::run(int input)
 {
@@ -112,55 +192,9 @@ void Player::setHp(int newHp)
 {
     hp = newHp;
 }
+//=============================================================================
 
-//-----------------------------------------------------------------------------
-//Platform Class method definitions
-
-//Public Methods
-void Platform::drawPlatf(int length)
-{
-    top = pos[1] + size;
-    center = pos[0] + ((length - 1) * size);
-    left = center - ((length) * size);
-    right = center + ((length) * size);
-    bottom = pos[1] - size;
-    
-    glDisable(GL_TEXTURE_2D);
-    glColor3f(0.0f, 0.0f, 0.2f);
-    
-    for (int i = 0; i < length; i++) {
-        pos[0] += 2 * size;
-        glBegin(GL_QUADS);
-            glVertex2f(pos[0] - size, pos[1] + size);
-            glVertex2f(pos[0] + size, pos[1] + size);
-            glVertex2f(pos[0] + size, pos[1] - size);
-            glVertex2f(pos[0] - size, pos[1] - size);
-        glEnd();
-    }
-    
-   glEnable(GL_TEXTURE_2D);
-}
-
-//Constructors
-Platform::Platform(int platfSize, Vec initPos, Vec initVel)
-{
-    size = platfSize;
-     
-    pos[0] = initPos[0];
-    pos[1] = initPos[1];
-    pos[2] = initPos[2];
-
-    vel[0] = initVel[0];
-    vel[1] = initVel[1];
-    vel[2] = initVel[2];
-}
-
-//Accessors
-
-//Mutators
-
-//-----------------------------------------------------------------------------
-
+//Uncategorized Methods
 //Prints the word 'Credits' to the screen
 void CreditsTitle(int yres)
 {

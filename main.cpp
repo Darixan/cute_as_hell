@@ -5,7 +5,7 @@
 //Date:             2013 to 2018
 //
 //Modified by:      Melanie Corral and Adrian Telan
-//Last modified:    24 Feb 2020
+//Last modified:    26 Feb 2020
 //
 //This program demonstrates the use of OpenGL and XWindows
 //
@@ -890,7 +890,7 @@ void checkRaindrops()
 void physics()
 {
     player.checkGrounded(ground);
-    player.run(5);
+    //player.run(5);
 	if (g.showBigfoot)
 		moveBigfoot();
 	if (g.showRain)
