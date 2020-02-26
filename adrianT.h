@@ -65,21 +65,25 @@ public:
 
     //int speed;  
     int size;
+    int damageOutput;
 
     bool isRunning;
     bool isGrounded;
     bool isRolling;
     bool isShooting;
     bool isHit;
+    bool facingLeft;
+    bool facingRight;
     
     //Public Methods
     void run(int input);
-    void shoot();
+    void shoot(Bullet plBullet);
     void roll();
-    void isDamaged(int damage);
+    void isDamaged(int damageInput);
     void drawPlayer();
     void checkGrounded(Platform ground);
-
+    void faceLeft();
+    void faceRight();
     //Constructors and Destructors
     Player(int initHp, int playerSize, Vec initPos);
     
@@ -93,5 +97,7 @@ private:
     //Private Properties
     int hp;
 };
+
+extern void UpdatePlayerFacing(Player player, Bullet bullet);
 
 #endif

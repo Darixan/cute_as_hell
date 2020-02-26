@@ -299,6 +299,18 @@ public:
 Vec playerPos = {g.xres/2.0 , g.yres/2.0, 0.0};
 Player player(100, 25, playerPos);
 
+//*****Bullet Class Instantiations*****
+Vec bulletVel = {0.0, 0.0, 0.0};
+Bullet plBullet(5, playerPos, bulletVel);
+
+//plBullet.pos[0] = player.pos[0];
+//plBullet.pos[1] = player.pos[1];
+
+//*****Enemy Class Instantiations*****
+//Note to Melanie:
+//Array for enemies on screen? For example:
+//Enemy dps[numEnemiesOnScreen];
+//Enemy healers[numEnemiesOnScreen];
 Enemy enemy;
 
 //****Platform Class Instantiation*****
@@ -891,7 +903,17 @@ void physics()
 {
     player.checkGrounded(ground);
     //player.run(5);
-	if (g.showBigfoot)
+    //UpdatePlayerFacing(player, plBullet); 
+	if (player.facingLeft) {
+        plBullet.pos[0] = player.pos[0] + player.size;
+        plBullet.pos[1] = player.pos[1];
+    }
+    if (player.facingRight) {
+        plBullet.pos[0] = player.pos[0] - player.size;
+        plBullet.pos[1] = player.pos[1];
+    }
+
+    if (g.showBigfoot)
 		moveBigfoot();
 	if (g.showRain)
 		checkRaindrops();
@@ -1067,6 +1089,11 @@ void render()
     ground.drawPlatf(10);
 
     player.drawPlayer();
+
+    //plBullet.pos[0] = playerPos[0];
+    //plBullet.pos[1] = playerPos[1];
+    plBullet.size = 5;
+    plBullet.drawBullet();
     //test.drawPlatf(10);
 
 }

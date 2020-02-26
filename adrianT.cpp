@@ -23,9 +23,10 @@
 
 //Public Methods
 void Bullet::drawBullet() 
+        glVertex2f(pos[0] - size, pos[1] + size);
 {
     glDisable(GL_TEXTURE_2D);
-    glColor3f(1.0f, 1.0f, 0.0f);
+    glColor3f(0.0f, 0.0f, 1.0f);
     glBegin(GL_QUADS);
         glVertex2f(pos[0] - size, pos[1] + size);
         glVertex2f(pos[0] + size, pos[1] + size);
@@ -48,7 +49,15 @@ void Bullet::bulletTracer()
 //Constructors
 Bullet::Bullet(int bulletSize, Vec initPos, Vec initVel)
 {
+    size = bulletSize;
 
+    pos[0] = initPos[0];
+    pos[1] = initPos[1];
+    pos[2] = initPos[2];
+
+    vel[0] = initVel[0];
+    vel[1] = initVel[1];
+    vel[2] = initVel[2];
 }
 
 //-----------------------------------------------------------------------------
@@ -101,9 +110,11 @@ Platform::Platform(int platfSize, Vec initPos, Vec initVel)
 //Player Class method definitions
 
 //Public Methods
-void Player::run(int input)
+void Player::run(int runVel)
 {
-    vel[0] = (float)input;
+    vel[0] = (float)runVel;
+    faceRight();
+    faceLeft();
     if (isRolling || isHit)
         return;
     else {
@@ -112,7 +123,7 @@ void Player::run(int input)
     }
 }
 
-void Player::shoot()
+void Player::shoot(Bullet plBullet)
 {
     if (isRolling || isHit)
         return;
@@ -122,6 +133,14 @@ void Player::roll()
 {
     if (isRolling)
         return;
+}
+
+void Player::isDamaged(int damageInput)
+{
+    hp -= damageInput;
+    if (hp <= 0) {
+        //Dead
+    }
 }
 
 void Player::drawPlayer()
@@ -158,6 +177,22 @@ void Player::checkGrounded(Platform ground)
     }
 }
 
+void Player::faceLeft()
+{
+    if (vel[0] >= 0) {
+        facingRight = false;
+        facingLeft = true;
+    } 
+}
+
+void Player::faceRight()
+{
+    if (vel[0] < 0) {
+        facingLeft = false;
+        facingRight = true;
+    }
+}
+
 //Constructor
 Player::Player(int initHp, int playerSize, Vec initPos)
 {
@@ -178,6 +213,8 @@ Player::Player(int initHp, int playerSize, Vec initPos)
     isRolling = false;
     isShooting = false;
     isHit = false;
+    facingLeft = false;
+    facingRight = true;
 }
 
 //Accessors
@@ -268,3 +305,15 @@ void DrawSquare(int yres)
     glEnable(GL_TEXTURE_2D);
 }
 
+void UpdatePlayerFacing(Player player, Bullet bullet)
+{
+    if (player.facingRight) {
+        bullet.pos[0] = player.pos[0] + player.size;
+        bullet.pos[1] = player.pos[1];
+    }
+
+    if (player.facingLeft) {
+        bullet.pos[0] = player.pos[0] - player.size;
+        bullet.pos[1] = player.pos[1];
+    }
+}
