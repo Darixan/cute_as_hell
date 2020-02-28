@@ -160,13 +160,15 @@ void Player::checkGrounded(Platform ground)
     int plSoles = pos[1] - size;
     int plRight = pos[0] + size;
     int plLeft = pos[0] - size;
+    int plTop = pos[1] + size;
 
 
     if (plSoles <= ground.top && plRight >= ground.left && 
             plLeft <= ground.right) {
         isGrounded = true;
         vel[1] = 0;
-        if (!(plRight <= ground.left && plLeft >= ground.right))
+        if ((!(plRight <= ground.left && plLeft >= ground.right) && 
+                plSoles >= ground.bottom))
             pos[1] = ground.top + 25;
     } else {
         isGrounded = false;
