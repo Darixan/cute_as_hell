@@ -23,7 +23,6 @@
 
 //Public Methods
 void Bullet::drawBullet() 
-        glVertex2f(pos[0] - size, pos[1] + size);
 {
     glDisable(GL_TEXTURE_2D);
     glColor3f(0.0f, 0.0f, 1.0f);
