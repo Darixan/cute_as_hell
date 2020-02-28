@@ -122,6 +122,11 @@ void Player::run(int runVel)
     }
 }
 
+void Player::jump() 
+{
+
+}
+
 void Player::shoot(Bullet plBullet)
 {
     if (isRolling || isHit)
@@ -160,7 +165,7 @@ void Player::checkGrounded(Platform ground)
     int plSoles = pos[1] - size;
     int plRight = pos[0] + size;
     int plLeft = pos[0] - size;
-    int plTop = pos[1] + size;
+    //int plTop = pos[1] + size;
 
 
     if (plSoles <= ground.top && plRight >= ground.left && 
@@ -210,6 +215,7 @@ Player::Player(int initHp, int playerSize, Vec initPos)
     vel[2] = 0;
 
     isRunning = false;
+    isJumping = false;
     isGrounded = false;
     isRolling = false;
     isShooting = false;

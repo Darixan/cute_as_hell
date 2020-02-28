@@ -68,6 +68,7 @@ public:
     int damageOutput;
 
     bool isRunning;
+    bool isJumping;
     bool isGrounded;
     bool isRolling;
     bool isShooting;
@@ -77,6 +78,7 @@ public:
     
     //Public Methods
     void run(int input);
+    void jump();
     void shoot(Bullet plBullet);
     void roll();
     void isDamaged(int damageInput);
