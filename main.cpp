@@ -5,7 +5,7 @@
 //Date:             2013 to 2018
 //
 //Modified by:      Melanie Corral and Adrian Telan
-//Last modified:    26 Feb 2020
+//Last modified:    1 March 2020
 //
 //This program demonstrates the use of OpenGL and XWindows
 //
@@ -140,7 +140,7 @@ public:
 };
 Image img[4] = {
 "./images/bigfoot.png",
-"./images/forest.png",
+"./images/background.png",
 "./images/forestTrans.png",
 "./images/umbrella.png" };
 
@@ -299,7 +299,9 @@ public:
 } x11;
 
 //*****Player Class Instantiation*****
-Vec playerPos = {g.xres/2.0 , g.yres/2.0, 0.0};
+//Note: Hey I changed your players spawn position
+//you originally had him in the middle (2.0)
+Vec playerPos = {g.xres/5.0 , g.yres/2.0, 0.0};
 Player player(100, 25, playerPos);
 
 //*****Bullet Class Instantiations*****
@@ -314,7 +316,8 @@ Bullet plBullet(5, playerPos, bulletVel);
 //Array for enemies on screen? For example:
 //Enemy dps[numEnemiesOnScreen];
 //Enemy healers[numEnemiesOnScreen];
-Enemy enemy;
+Vec enemyPos = {g.xres/1.5, g.yres/2.0, 0.0};
+Enemy enemy(50, 25, enemyPos);
 
 //****Platform Class Instantiation*****
 Vec groundPos = {g.xres/10.0, g.yres/10.0, 0.0};
@@ -916,6 +919,8 @@ void physics()
 {
     player.checkPlatfColl(ground);
     player.applyGravity(1.5);
+    enemy.CollisonGround(ground);
+    enemy.movement(ground);
     //player.run(5);
     //UpdatePlayerFacing(player, plBullet); 
 	/**/
@@ -1081,7 +1086,7 @@ void render()
     ggprint8b(&r, 16, c, "C - Credits and Controls");
 
     Main_Menu(g.yres);
-    enemy.drawEnemy(g.yres);
+    enemy.drawEnemy();
 
     //Vec playerPos = {g.xres/2.0 , g.yres/2.0, 0.0};
     //Player player(100, playerPos);

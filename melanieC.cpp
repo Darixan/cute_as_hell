@@ -4,7 +4,7 @@
 //Program: melanieC.cpp
 //Author: Melanie Corral
 //Date: 2020
-//Last modified 24 Feb 2020
+//Last modified 1 March 2020
 //
 //Completed:
 //Credit implementation
@@ -36,7 +36,7 @@ void Main_Menu(int yres)
 	r.center = 0;
         ggprint16(&r, 16, c, "Beta Test");
 }
-void Enemy::drawEnemy(int yres)
+void Enemy::drawEnemy()
 {
     glDisable(GL_TEXTURE_2D);
     glColor3ub(242, 83, 0);
@@ -44,14 +44,81 @@ void Enemy::drawEnemy(int yres)
     //glVertex2f(-10.0f, -10.0f);
     //glVertex2f(  0.0f, 20.0f);
     //glVertex2f( 10.0f, -10.0f);
-    glVertex2f(150, yres - 350); //top vertex
-    glVertex2f(120, yres - 410); //left vertex
-    glVertex2f(180, yres - 410); //right vertex
+    glVertex2f(pos[0], pos[1] + esize); //top vertex
+    glVertex2f(pos[0] - esize, pos[1] - esize); //left vertex
+    glVertex2f(pos[0] + esize, pos[1] - esize); //right vertex
 
     glEnd();
     glEnable(GL_TEXTURE_2D);
 
 
 
-} 
+}
+Enemy::Enemy(int enemyHP, int enemySize, Vec enemyPos)
+{
+	ehp = enemyHP;
+	pos[0] = enemyPos[0];
+	pos[1] = enemyPos[1];
+	pos[2] = enemyPos[2];
 
+	esize = enemySize;
+	
+	vel[0] = 0.5;
+	vel[1] = 0;
+	vel[2] = 0;
+
+	isGrounded = false;
+	
+	/*isWalking = true;	
+	if (isWalking == true) {
+		enemyPos[0] += -.5; //left
+		enemyPos[0] += .5; //right
+		
+	}*/
+}
+
+void Enemy::CollisonGround(Platform ground)
+{
+
+    int EnemyBottom = pos[1] - esize;
+    int EnemyRight = pos[0] + esize;
+    int EnemyLeft = pos[0] - esize;
+
+    if (EnemyBottom <= ground.top && EnemyRight >= ground.left &&
+            EnemyLeft <= ground.right) {
+        isGrounded = true;
+        vel[1] = 0;
+    } else { 
+	isGrounded = false;
+        vel[1] = -6.80;
+        pos[1] += vel[1];
+    }
+
+}
+
+void Enemy::movement(Platform ground)
+{	
+	pos[0] += vel[0];
+	pos[1] += vel[1];
+
+	if(((pos[0] + esize) < ground.left && vel[0] < 0.0) ||
+		        (pos[0] >= ground.left && vel[0] > 0.0))
+ 		vel[0] = -vel[0] * 6.5;
+	if(((pos[0] - esize) < ground.right && vel[1] < 0.0) || 
+			(pos[1] >= ground.right && vel[1] > 0.0))
+		vel[1] = -vel[1] *5; 
+/*	if ((pos[0] < -140.0 && vel[0] < 0.0) ||
+		(pos[0] >= esize + 140.0 &&
+		vel[0] > 0.0)) {
+
+		vel[0] = -vel[0] * 5;
+
+	}
+	if ((pos[1] < 150.0 && vel[1] < 0.0) ||
+		(pos[1] >= esize && vel[1] > 0.0)) {
+		
+		vel[1] = -vel[1] * 5;
+
+	}
+*/
+}
