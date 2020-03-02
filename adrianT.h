@@ -29,7 +29,7 @@ public:
 
     //Public Methods
     void drawBullet();
-    void moveBullet();
+    void moveBullet(int speed);
     void bulletTracer();
 
     //Constructors
@@ -77,13 +77,14 @@ public:
     bool facingRight;
     
     //Public Methods
-    void run(int input);
-    void jump();
+    void run(int runVel);
+    void jump(int jumpVel);
     void shoot(Bullet plBullet);
     void roll();
     void isDamaged(int damageInput);
     void drawPlayer();
-    void checkGrounded(Platform ground);
+    void checkPlatfColl(Platform ground);
+    void applyGravity(float gravVel);
     void faceLeft();
     void faceRight();
     //Constructors and Destructors

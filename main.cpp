@@ -74,6 +74,9 @@ extern void CreditsTitle(int);
 extern void MC_Credits(int);
 extern void AT_Credits(int);
 
+//Controls Scheme Method Prototypes
+extern void PrintControls(int);
+
 //Class Quiz
 extern void PrintTasks(int);
 extern void Main_Menu(int);
@@ -595,6 +598,16 @@ int checkKeys(XEvent *e)
             player.run(10);
             break;
 
+        //Adrian: Skeleton for Shooting
+        case XK_e:
+            player.shoot(plBullet);
+            break;
+
+        //Adrian: Skeleton for Jumping
+        case XK_space:
+            player.jump(10);
+            break;
+
 		case XK_b:
 			g.showBigfoot ^= 1;
 			if (g.showBigfoot) {
@@ -901,10 +914,12 @@ void checkRaindrops()
 
 void physics()
 {
-    player.checkGrounded(ground);
+    player.checkPlatfColl(ground);
+    player.applyGravity(1.5);
     //player.run(5);
     //UpdatePlayerFacing(player, plBullet); 
-	if (player.facingLeft) {
+	/**/
+    if (player.facingLeft) {
         plBullet.pos[0] = player.pos[0] + player.size;
         plBullet.pos[1] = player.pos[1];
     }
@@ -912,7 +927,7 @@ void physics()
         plBullet.pos[0] = player.pos[0] - player.size;
         plBullet.pos[1] = player.pos[1];
     }
-
+    /**/
     if (g.showBigfoot)
 		moveBigfoot();
 	if (g.showRain)
@@ -1063,6 +1078,8 @@ void render()
 
 //-----------------------------------------------------------------------------
 //Our space to test entity rendering
+    ggprint8b(&r, 16, c, "C - Credits and Controls");
+
     Main_Menu(g.yres);
     enemy.drawEnemy(g.yres);
 
@@ -1080,7 +1097,8 @@ void render()
         CreditsTitle(g.yres);
         MC_Credits(g.yres);
         AT_Credits(g.yres);
-        PrintTasks(g.yres);
+        //PrintTasks(g.yres);
+        PrintControls(g.yres);
     }
 
     ground.pos[0] = groundPos[0];

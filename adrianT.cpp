@@ -35,9 +35,9 @@ void Bullet::drawBullet()
     glEnable(GL_TEXTURE_2D);
 }
 
-void Bullet::moveBullet()
+void Bullet::moveBullet(int bulletSpeed)
 {
-    
+    vel[0] = bulletSpeed;
 }
 
 void Bullet::bulletTracer()
@@ -122,15 +122,35 @@ void Player::run(int runVel)
     }
 }
 
-void Player::jump() 
+void Player::jump(int jumpVel) 
 {
-
+    //vel[1] = (float)jumpVel;
+    if (isGrounded) {
+        vel[1] = (float)jumpVel;
+        pos[1] += vel[1];
+        return;
+    } else if (!isGrounded) { 
+        //vel[1] -= (float)jumpVel;
+        //vel[1] *= 1.1;
+        //pos[1] -= 5 * vel[1];
+        return;
+    }
 }
 
 void Player::shoot(Bullet plBullet)
 {
     if (isRolling || isHit)
         return;
+    if (facingLeft) {
+        plBullet.pos[0] = pos[0] + size;
+        plBullet.pos[1] = pos[1];
+        plBullet.moveBullet(-10);
+    }
+    if (facingRight) { 
+        plBullet.pos[0] = pos[0] - size;
+        plBullet.pos[1] = pos[1];
+        plBullet.moveBullet(-10);
+    }
 }
 
 void Player::roll()
@@ -160,7 +180,7 @@ void Player::drawPlayer()
     glEnable(GL_TEXTURE_2D);
 }
 
-void Player::checkGrounded(Platform ground)
+void Player::checkPlatfColl(Platform ground)
 {
     int plSoles = pos[1] - size;
     int plRight = pos[0] + size;
@@ -171,13 +191,24 @@ void Player::checkGrounded(Platform ground)
     if (plSoles <= ground.top && plRight >= ground.left && 
             plLeft <= ground.right) {
         isGrounded = true;
-        vel[1] = 0;
+        //vel[1] = 0;
         if ((!(plRight <= ground.left && plLeft >= ground.right) && 
                 plSoles >= ground.bottom))
             pos[1] = ground.top + 25;
     } else {
         isGrounded = false;
-        vel[1] -= 0.2;
+        //vel[1] -= 0.2;
+        //vel[1] *= 1.1;
+        //pos[1] += vel[1];
+    }
+}
+
+void Player::applyGravity(float gravVel)
+{
+    if (isGrounded)
+        vel[1] = 0;
+    else if (!isGrounded) {
+        vel[1] -= gravVel;
         vel[1] *= 1.1;
         pos[1] += vel[1];
     }
@@ -314,13 +345,34 @@ void DrawSquare(int yres)
 
 void UpdatePlayerFacing(Player player, Bullet bullet)
 {
-    if (player.facingRight) {
+    if (player.facingLeft) {
         bullet.pos[0] = player.pos[0] + player.size;
         bullet.pos[1] = player.pos[1];
     }
 
-    if (player.facingLeft) {
+    if (player.facingRight) {
         bullet.pos[0] = player.pos[0] - player.size;
         bullet.pos[1] = player.pos[1];
     }
+}
+
+void PrintControls(int yres)
+{
+    Rect controlTitle;
+    Rect cList[3];
+    
+    controlTitle.bot = yres - 320;
+    controlTitle.left = 10;
+    controlTitle.center = 0;    
+    
+    for (int i = 0; i < 3; i++) {
+        cList[i].bot = yres - 350 - 15 * i;
+        cList[i].left = 10;
+        cList[i].center = 0;
+    }
+    
+    ggprint12(&controlTitle, 16, 0x00ff0000, "Controls");
+    ggprint8b(&cList[0], 16, 0x00ff0000, "A - Move Left");
+    ggprint8b(&cList[1], 16, 0x00ff0000, "D - Move Right");
+    ggprint8b(&cList[2], 16, 0x00ff0000, "Space - Jump");
 }
