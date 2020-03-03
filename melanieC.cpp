@@ -4,10 +4,11 @@
 //Program: melanieC.cpp
 //Author: Melanie Corral
 //Date: 2020
-//Last modified 1 March 2020
+//Last modified 3 March 2020
 //
 //Completed:
 //Credit implementation
+//Added Lab3 functions
 //To do list:
 //Enemy AI attack/health
 //Different Enemy types
@@ -122,3 +123,63 @@ void Enemy::movement(Platform ground)
 	}
 */
 }
+/////////////////////////lab3.cpp functions///////////////////////////
+
+BIO *ssl_setup_bio(void)
+{
+    //Setup the ssl BIO, basic I/O abstraction.
+    //https://www.openssl.org/docs/man1.1.0/man3/bio.html
+    BIO *bio = NULL;
+    OpenSSL_add_all_algorithms();
+    ERR_load_BIO_strings();
+    ERR_load_crypto_strings();
+    SSL_load_error_strings();
+    bio = BIO_new(BIO_s_file());
+    bio = BIO_new_fp(stdout, BIO_NOCLOSE);
+    return bio;
+}
+
+void show_cert_data(SSL *ssl, BIO *outbio, const char *hostname)
+{
+    //Display ssl certificate data here.
+    //Get the remote certificate into the X509 structure
+    printf("--------------------------------------------------------------\n");
+    printf("Certificate data...\n");
+    X509 *cert;
+    X509_NAME *certname;
+    printf("calling SSL_get_peer_certificate(ssl)\n");
+    cert = SSL_get_peer_certificate(ssl);
+    if (cert == NULL)
+        printf("Error: Could not get a certificate from: %s.\n", hostname);
+    else
+        printf("Retrieved the server's certificate from: %s.\n", hostname);
+    //extract various certificate information
+    certname = X509_NAME_new();
+    certname = X509_get_subject_name(cert);
+    //display the cert subject here
+    if (BIO_printf(outbio, "Displaying the certificate subject data:\n") < 0)
+        fprintf(stderr, "ERROR: BIO_printf\n");
+    X509_NAME_print_ex(outbio, certname, 0, 0);
+    if (BIO_printf(outbio, "\n\n") < 0)
+        fprintf(stderr, "ERROR: BIO_printf\n");
+    printf("--------------------------------------------------------------\n");
+}
+
+void set_to_non_blocking(const int sock)
+{
+    //Set a socket to be non-blocking.
+    int opts;
+    opts = fcntl(sock, F_GETFL);
+    if (opts < 0) {
+        perror("ERROR: fcntl(F_GETFL)");
+        exit(EXIT_FAILURE);
+    }
+    opts = (opts | O_NONBLOCK);
+    if (fcntl(sock, F_SETFL, opts) < 0) {
+        perror("ERROR: fcntl(O_NONBLOCK)");
+        exit(EXIT_FAILURE);
+    }
+}
+
+
+/////////////////////////////////////////////////////////////////////
