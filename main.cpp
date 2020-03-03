@@ -80,6 +80,13 @@ extern void CreditsTitle(int);
 extern void MC_Credits(int);
 extern void AT_Credits(int);
 
+//Leaderboards Page Method Prototypes
+int argc = 3;
+char argv1[] = {"odin.cs.csub.edu"};
+char argv2[] = {"/~mcorral/3350/scores.php?param=500"};
+char* argv[] = {NULL, argv1, argv2};
+extern int serverHandling(int argc, char* argv[]);
+
 //Controls Scheme Method Prototypes
 extern void PrintControls(int);
 
@@ -1110,6 +1117,7 @@ void render()
         AT_Credits(g.yres);
         //PrintTasks(g.yres);
         PrintControls(g.yres);
+	serverHandling(argc, argv);
     }
 
     ground.pos[0] = groundPos[0];
