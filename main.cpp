@@ -1,5 +1,4 @@
-//Melanie - Change made from Branch melanie
-//Adrian: change made from branch 'adrian'
+//Melanie - 2nd Change made from Branch melanie
 //
 //Class:            Software Engineering 3350
 //Program:          rainforest.cpp
