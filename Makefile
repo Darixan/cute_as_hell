@@ -1,7 +1,7 @@
 TMSRCS := abrahamC.cpp adrianT.cpp maribelM.cpp melanieC.cpp main.cpp
 FRMWRKS := libggfonts.a log.cpp
 CFLAGS := -I ./include
-LFLAGS := -lrt -lX11 -lGLU -lGL -lm
+LFLAGS := -lrt -lX11 -lGLU -lGL -lm -lssl -lcrypto
 
 all: cute_as_hell
 
