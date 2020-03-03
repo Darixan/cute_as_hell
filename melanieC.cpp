@@ -13,6 +13,18 @@
 //Enemy AI attack/health
 //Different Enemy types
 
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+#include <netdb.h>
+#include <fcntl.h>
+#include <openssl/crypto.h>
+#include <openssl/x509.h>
+#include <openssl/pem.h>
+#include <openssl/ssl.h>
+#include <openssl/err.h>
+
 #include <iostream>
 #include "fonts.h"
 #include "melanieC.h"
