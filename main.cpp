@@ -1,4 +1,6 @@
-//Melanie -Change made from Branch melanie
+//Melanie - Change made from Branch melanie
+//Adrian: change made from branch 'adrian'
+//
 //Class:            Software Engineering 3350
 //Program:          rainforest.cpp
 //Author:           Gordon Griesel
