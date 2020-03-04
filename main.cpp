@@ -82,9 +82,11 @@ extern void AT_Credits(int);
 
 //Leaderboards Page Method Prototypes
 int argc = 3;
-char argv1[] = {"odin.cs.csub.edu"};
-char argv2[] = {"/~mcorral/3350/scores.php?param=500"};
-char* argv[] = {NULL, argv1, argv2};
+char argvh[] = {"odin.cs.csub.edu"};                    //host
+char argvpr[] = {"/~mcorral/3350/scores.php?param=1"};  //read from page
+char argvpw[] = {"/~mcorral/3350/scores.php?param=2"};  //write to page
+char* argvr[] = {NULL, argvh, argvpr};
+char* argvw[] = {NULL, argvh, argvpw};
 extern int serverHandling(int argc, char* argv[]);
 
 //Controls Scheme Method Prototypes
@@ -1117,7 +1119,7 @@ void render()
         AT_Credits(g.yres);
         //PrintTasks(g.yres);
         PrintControls(g.yres);
-	serverHandling(argc, argv);
+    	serverHandling(argc, argvr);
     }
 
     ground.pos[0] = groundPos[0];

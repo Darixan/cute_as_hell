@@ -14,6 +14,8 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <fcntl.h>
+#include <iostream>
+using namespace std;
 
 #include <openssl/crypto.h>
 #include <openssl/x509.h>
