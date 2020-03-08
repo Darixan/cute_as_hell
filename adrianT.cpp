@@ -403,7 +403,7 @@ void PrintControls(int yres)
 const int MAX_READ_ERRORS = 100;
 
 
-int serverHandling(int argc, char *argv[])
+char *serverHandling(int argc, char *argv[], char score[])
 {
     BIO *ssl_setup_bio(void);
     void show_cert_data(SSL *ssl, BIO *outbio, const char *hostname);
@@ -504,20 +504,38 @@ int serverHandling(int argc, char *argv[])
     nreads = 1;
     //Allow for some read errors to happen, while getting the complete data.
     nerrs = 0;
+
+
     while (bytes >= 0 && nerrs < MAX_READ_ERRORS) {
         write(STDOUT_FILENO, buf, bytes);
-        memset(buf, '\0', sizeof(buf));
+
+          
+
+        //memset(buf, '\0', sizeof(buf));
         ++nreads;
         bytes = SSL_read(ssl, buf, sizeof(buf));
         if (bytes == 0) ++nerrs; else nerrs = 0;
         //A slight pause can cause fewer reads to be needed.
-        usleep(20000);
+        usleep(20000); 
     }
+
+    //char arr[] = "Test";
+    string s(buf);
+    cout << s;
+    
+    for (unsigned int i = 0; i < sizeof(buf); i++) 
+        score[i] = buf[i];
+
+    /*
+    for (unsigned int i = 0; i < sizeof(buf); i++) 
+        cout << buf[i] << endl;
+    */
+
     printf("\nn calls to ssl_read(): %i\n", nreads); fflush(stdout);
     //Cleanup.
     SSL_free(ssl);
     close(sd);
     SSL_CTX_free(ctx);
-    return 0;
+    return score;
 }
 

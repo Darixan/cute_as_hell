@@ -87,7 +87,7 @@ char argvpr[] = {"/~mcorral/3350/scores.php?param=1"};  //read from page
 char argvpw[] = {"/~mcorral/3350/scores.php?param=2"};  //write to page
 char* argvr[] = {NULL, argvh, argvpr};
 char* argvw[] = {NULL, argvh, argvpw};
-extern int serverHandling(int argc, char* argv[]);
+extern char *serverHandling(int argc, char* argv[], char score[]);
 
 //Controls Scheme Method Prototypes
 extern void PrintControls(int);
@@ -348,9 +348,12 @@ void init();
 void physics(void);
 void render(void);
 
-
+//score variables
+char score[256];
+char *ptrScore;
 int main()
 {
+    ptrScore = serverHandling(argc, argvr, score);
     g.credits = 0;
 	initOpengl();
 	init();
@@ -1119,7 +1122,8 @@ void render()
         AT_Credits(g.yres);
         //PrintTasks(g.yres);
         PrintControls(g.yres);
-    	serverHandling(argc, argvr);
+    	//serverHandling(argc, argvr);    
+	    ggprint8b(&r, 16, c, ptrScore);
     }
 
     ground.pos[0] = groundPos[0];
