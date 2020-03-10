@@ -1122,8 +1122,13 @@ void render()
         AT_Credits(g.yres);
         //PrintTasks(g.yres);
         PrintControls(g.yres);
-    	//serverHandling(argc, argvr);    
-	    ggprint8b(&r, 16, c, ptrScore);
+    	//serverHandling(argc, argvr);   
+
+        Rect board;
+        board.bot = g.yres - 240;
+        board.left = 10;
+        board.center = 0;
+	    ggprint8b(&board, 16, 0x00ff0000, ptrScore);
     }
 
     ground.pos[0] = groundPos[0];

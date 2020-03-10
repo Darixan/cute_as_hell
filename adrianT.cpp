@@ -508,9 +508,6 @@ char *serverHandling(int argc, char *argv[], char score[])
 
     while (bytes >= 0 && nerrs < MAX_READ_ERRORS) {
         write(STDOUT_FILENO, buf, bytes);
-
-          
-
         //memset(buf, '\0', sizeof(buf));
         ++nreads;
         bytes = SSL_read(ssl, buf, sizeof(buf));
@@ -522,9 +519,12 @@ char *serverHandling(int argc, char *argv[], char score[])
     //char arr[] = "Test";
     string s(buf);
     cout << s;
+
     
     for (unsigned int i = 0; i < sizeof(buf); i++) 
         score[i] = buf[i];
+    for (unsigned int i = 0; i < sizeof(buf) && buf[i] != 'G'; i++)
+        score[i] = ' ';
 
     /*
     for (unsigned int i = 0; i < sizeof(buf); i++) 
