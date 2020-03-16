@@ -111,16 +111,16 @@ void Enemy::CollisonGround(Platform ground)
 
 void Enemy::movement(Platform ground)
 {	
-	pos[0] += vel[0];
+	pos[0] += vel[0]*2;
 	pos[1] += vel[1];
 
-	if(((pos[0] + esize) < ground.left && vel[0] < 0.0) ||
-		        (pos[0] >= ground.left && vel[0] > 0.0))
- 		vel[0] = -vel[0] * 6.5;
-	if(((pos[0] - esize) < ground.right && vel[1] < 0.0) || 
-			(pos[1] >= ground.right && vel[1] > 0.0))
-		vel[1] = -vel[1] *5; 
-/*	if ((pos[0] < -140.0 && vel[0] < 0.0) ||
+	if(((pos[0] - esize) < ground.left + 200 && vel[0] < 0.0) ||
+		        (pos[0] + esize > ground.right && vel[0] > 0.0))
+ 		vel[0] = -vel[0];
+/*	if(((pos[0] - esize) < ground.right+200 && vel[1] < 0.0) || 
+			(pos[1]+esize >= ground.right && vel[1] > 0.0))
+		vel[0] = -vel[0] *2; 
+*	if ((pos[0] < -140.0 && vel[0] < 0.0) ||
 		(pos[0] >= esize + 140.0 &&
 		vel[0] > 0.0)) {
 
