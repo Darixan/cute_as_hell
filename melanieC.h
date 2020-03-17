@@ -4,7 +4,7 @@
 //Program: melanieC.h
 //Author: Melanie Corral
 //Date: 2020
-//Last modified: 24 Feb 2020
+//Last modified: 17 March 2020
 //
 //This is the header file for Enemy properties
 //
@@ -42,7 +42,7 @@ class Enemy {
 	void Direction();
 	void drawEnemy();
 	void CollisonGround(Platform ground);
-
+	void PlayerHit(Player play);
 
 	Enemy(int enemyHP, int enemySize, Vec enemyPos);
     private:
