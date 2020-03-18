@@ -30,7 +30,7 @@ public:
     //Public Methods
     void drawBullet();
     void moveBullet(int speed);
-    void bulletTracer();
+    void drawBulletTracer();
 
     //Constructors
     Bullet(int bulletSize, Vec initPos, Vec initVel);
@@ -75,7 +75,8 @@ public:
     bool isHit;
     bool facingLeft;
     bool facingRight;
-    
+    bool isPoisoned;
+ 
     //Public Methods
     void run(int runVel);
     void jump(int jumpVel);
@@ -87,6 +88,8 @@ public:
     void applyGravity(float gravVel);
     void faceLeft();
     void faceRight();
+    int applyPoison(int poisDam);
+
     //Constructors and Destructors
     Player(int initHp, int playerSize, Vec initPos);
     

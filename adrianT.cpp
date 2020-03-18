@@ -61,7 +61,7 @@ void Bullet::moveBullet(int bulletSpeed)
     vel[0] = bulletSpeed;
 }
 
-void Bullet::bulletTracer()
+void Bullet::drawBulletTracer()
 {
 
 }
@@ -251,6 +251,14 @@ void Player::faceRight()
     }
 }
 
+int Player::applyPoison(int poisDam)
+{
+    if (poisDam == 0)
+        return 0;
+    else 
+        return applyPoison(poisDam - 1);
+}
+
 //Constructor
 Player::Player(int initHp, int playerSize, Vec initPos)
 {
@@ -272,6 +280,7 @@ Player::Player(int initHp, int playerSize, Vec initPos)
     isRolling = false;
     isShooting = false;
     isHit = false;
+    isPoisoned = false;
     facingLeft = false;
     facingRight = true;
 }
