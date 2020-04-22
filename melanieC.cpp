@@ -4,7 +4,7 @@
 //Program: melanieC.cpp
 //Author: Melanie Corral
 //Date: 2020
-//Last modified 17 March 2020
+//Last modified 21 April 2020
 //
 //Completed:
 //Credit implementation
@@ -42,10 +42,27 @@ void MC_Credits(int yres)
 void Main_Menu(int yres)
 {
     Rect r;
-    unsigned int c = 0x00ffff00;
+    unsigned int c = 0x00ff0000;
+   /* GLuint cuteashell;
+
+    Image image[1] = {
+	    "./images/cuteashell.png"};
+
+    glGenTextures(1, &r.cuteashell);
+    glBindTexture(GL_TEXTURE_2D, r.cuteashell);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+    w = image[0].width;
+    h = image[0].height;
+    unsigned char *ftData = buildAlphaData(&img[0]);
+    glTestImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, ftData);
+    free(ftData);
+
+*/
 
     glDisable(GL_TEXTURE_2D);
-    glColor3f(0.0f, 0.7f, 0.0f);
+//    glBindTexture(GL_TEXTURE_2D, r.cuteashell);
+    glColor3f(0.7f, 0.0f, 0.0f);
     glBegin(GL_QUADS);
        glVertex2f(250, yres - 200);//upper right
        glVertex2f(250, yres - 100);//upper left
@@ -53,11 +70,10 @@ void Main_Menu(int yres)
        glVertex2f(380, yres - 200);//
     glEnd();
     glEnable(GL_TEXTURE_2D);
-
     r.bot = yres - 165;
     r.left = 275;
     r.center = 0;
-    ggprint16(&r, 16, c, "Beta Test");
+    ggprint16(&r, 16, c, "test");
 }
 void Enemy::drawEnemy()
 {
@@ -155,6 +171,7 @@ void Enemy::movement(Platform ground)
      }
      */
 }
+
 /////////////////////////lab3.cpp functions///////////////////////////
 
 BIO *ssl_setup_bio(void)

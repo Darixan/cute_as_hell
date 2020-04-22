@@ -49,6 +49,15 @@ class Enemy {
 	int ehp;
 };
 
+class Bullets {
+	public:
+		Vec pos;
+		Vec vel;
+		float color[3];
+		struct timespec time;
+	public:
+		Bullets() { }
+};
 
 class ShootingEnemy
 {
@@ -57,15 +66,6 @@ class ShootingEnemy
 		Vec pos;
 		float inc;
 		void BasicEnemy();
-};
-
-class FlyingEnemy 
-{
-
-	public:
-		Vec vel;
-		Vec pos;
-		
 };
 
 #endif

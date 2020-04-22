@@ -56,7 +56,7 @@ typedef Flt	Matrix[4][4];
 const float timeslice = 1.0f;
 const float gravity = -0.2f;
 #define ALPHA 1
-
+#define PI 3.141592653589793
 //-----------------------------------------------------------------------------
 //Setup timers
 //clock_gettime(CLOCK_REALTIME, &timePause);
@@ -67,6 +67,7 @@ struct timespec timePause;
 double physicsCountdown=0.0;
 double timeSpan=0.0;
 unsigned int upause=0;
+const int MAX_BULLETS = 5;
 double timeDiff(struct timespec *start, struct timespec *end) {
 	return (double)(end->tv_sec - start->tv_sec ) +
 			(double)(end->tv_nsec - start->tv_nsec) * oobillion;
@@ -156,12 +157,15 @@ public:
 Image img[4] = {
 "./images/bigfoot.png",
 "./images/background.png",
-"./images/forestTrans.png",
+"./images/cuteashell.png",
 "./images/umbrella.png" };
 
 class Global {
 public:
     int credits;
+int nbullets;
+struct timespec bulletTimer;
+Bullets *barr;
 
 	int done;
 	int xres, yres;
@@ -353,6 +357,8 @@ char score[256];
 char *ptrScore;
 int main()
 {
+//int nbullets = 0;
+//int barr = new Bullets[MAX_BULLETS];
     ptrScore = serverHandling(argc, argvr, score);
     g.credits = 0;
 	initOpengl();
@@ -571,22 +577,54 @@ void checkMouse(XEvent *e)
 	static int savex = 0;
 	static int savey = 0;
 	//
+	//static int ct=0;
+	//std::cout << "m" << std::endl << std::flush;
 	if (e->type == ButtonRelease) {
 		return;
 	}
 	if (e->type == ButtonPress) {
 		if (e->xbutton.button==1) {
 			//Left button is down
+			//a little time between each bullet
+			struct timespec bt;
+			clock_gettime(CLOCK_REALTIME, &bt);
+			double ts = timeDiff(&g.bulletTimer, &bt);
+			if (ts > 0.1) {
+				timeCopy(&g.bulletTimer, &bt);
+				//shoot a bullet...
+				if (g.nbullets < MAX_BULLETS) {
+					Bullets *b = &g.barr[g.nbullets];
+					timeCopy(&b->time, &bt);
+					//Melanie: Enemy bullet skeleton.
+					b->pos[0] = enemy.pos[0];
+					b->pos[1] = enemy.pos[1];
+					b->vel[0] = enemy.vel[0];
+					b->vel[1] = enemy.vel[1];
+					//convert ship angle to radians
+					Flt rad = ((enemy.pos[0] +90.0) / 360.0f) * PI * 2.0;
+					//convert angle to a vector
+					Flt xdir = cos(rad);
+					Flt ydir = sin(rad);
+					b->pos[0] += xdir*20.0f;
+					b->pos[1] += ydir*20.0f;
+					b->vel[0] += xdir*6.0f + rnd()*0.1;
+					b->vel[1] += ydir*6.0f + rnd()*0.1;
+					b->color[0] = 1.0f;
+					b->color[1] = 1.0f;
+					b->color[2] = 1.0f;
+					++g.nbullets;
+				}
+			}
 		}
 		if (e->xbutton.button==3) {
 			//Right button is down
 		}
-	}
 	if (savex != e->xbutton.x || savey != e->xbutton.y) {
 		//Mouse moved
 		savex = e->xbutton.x;
 		savey = e->xbutton.y;
 	}
+}
 }
 
 int checkKeys(XEvent *e)
@@ -1090,17 +1128,19 @@ void render()
 	r.left = 10;
 	r.center = 0;
 	ggprint8b(&r, 16, c, "B - Bigfoot");
-	ggprint8b(&r, 16, c, "F - Forest");
-	ggprint8b(&r, 16, c, "O - Silhouette");
-	ggprint8b(&r, 16, c, "T - Trees");
-	ggprint8b(&r, 16, c, "U - Umbrella");
+	//ggprint8b(&r, 16, c, "F - Forest");
+	//ggprint8b(&r, 16, c, "O - Silhouette");
+	//ggprint8b(&r, 16, c, "T - Trees");
+	//ggprint8b(&r, 16, c, "U - Umbrella");
 	ggprint8b(&r, 16, c, "R - Rain");
-	ggprint8b(&r, 16, c, "J - Deflection");
-	ggprint8b(&r, 16, c, "N - Sounds");
+	//ggprint8b(&r, 16, c, "J - Deflection");
+	//ggprint8b(&r, 16, c, "N - Sounds");
 
 
 //-----------------------------------------------------------------------------
 //Our space to test entity rendering
+    ggprint8b(&r, 16, c, "Move - WASD");
+    ggprint8b(&r, 16, c, "Space - Jump");
     ggprint8b(&r, 16, c, "C - Credits and Controls");
 
     Main_Menu(g.yres);
