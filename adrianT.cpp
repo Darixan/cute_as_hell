@@ -1,6 +1,6 @@
 //Class:            Software Engineering 3350
 //Author:           Adrian Jay Telan
-//Last Modified:    26 Feb 2020
+//Last Modified:    24 Apr 2020
 //File:             adrianT.cpp
 //Project:          cute_as_hell
 //Main location:    main.cpp
@@ -93,8 +93,16 @@ void Platform::drawPlatf(int length)
     bottom = pos[1] - size;
     
     glDisable(GL_TEXTURE_2D);
-    glColor3f(0.0f, 0.0f, 0.2f);
-    
+    glColor3f(0.0f, 0.0f, 0.2f);    
+
+    glBegin(GL_QUADS);
+        glVertex2f(left, top);
+        glVertex2f(right, top);
+        glVertex2f(right, bottom);
+        glVertex2f(left, bottom);
+    glEnd();
+
+    /*
     for (int i = 0; i < length; i++) {
         pos[0] += 2 * size;
         glBegin(GL_QUADS);
@@ -104,6 +112,7 @@ void Platform::drawPlatf(int length)
             glVertex2f(pos[0] - size, pos[1] - size);
         glEnd();
     }
+    */
     
    glEnable(GL_TEXTURE_2D);
 }
@@ -132,13 +141,15 @@ Platform::Platform(int platfSize, Vec initPos, Vec initVel)
 //Public Methods
 void Player::run(int runVel)
 {
+    if (runVel !=0) {
+        faceDir = (float)runVel;
+    }
     vel[0] = (float)runVel;
-    faceRight();
-    faceLeft();
-    if (isRolling || isHit)
-        return;
-    else {
-        pos[0] += vel[0];
+    faceRight(faceDir);
+    faceLeft(faceDir);
+    isRunning = true;
+    if (isRolling || isHit) {
+        isRunning = false;
         return;
     }
 }
@@ -149,8 +160,10 @@ void Player::jump(int jumpVel)
     if (isGrounded) {
         vel[1] = (float)jumpVel;
         pos[1] += vel[1];
+        isJumping = false;
         return;
     } else if (!isGrounded) { 
+        isJumping = true;
         //vel[1] -= (float)jumpVel;
         //vel[1] *= 1.1;
         //pos[1] -= 5 * vel[1];
@@ -206,22 +219,29 @@ void Player::checkPlatfColl(Platform ground)
     int plSoles = pos[1] - size;
     int plRight = pos[0] + size;
     int plLeft = pos[0] - size;
-    //int plTop = pos[1] + size;
+    int plTop = pos[1] + size;
 
 
     if (plSoles <= ground.top && plRight >= ground.left && 
             plLeft <= ground.right) {
         isGrounded = true;
-        //vel[1] = 0;
-        if ((!(plRight <= ground.left && plLeft >= ground.right) && 
-                plSoles >= ground.bottom))
-            pos[1] = ground.top + 25;
+        if (!(plRight <= ground.left && plLeft >= ground.right) && 
+                plSoles >= ground.bottom)
+            pos[1] = ground.top + size;
     } else {
         isGrounded = false;
         //vel[1] -= 0.2;
         //vel[1] *= 1.1;
         //pos[1] += vel[1];
     }
+
+/*
+    if (plRight >= ground.left && plSoles <= ground.bottom &&
+            plTop >= ground.bottom) {
+        pos[0] = ground.left - size;
+        isGrounded = false;
+    }
+*/
 }
 
 void Player::applyGravity(float gravVel)
@@ -235,17 +255,17 @@ void Player::applyGravity(float gravVel)
     }
 }
 
-void Player::faceLeft()
+void Player::faceLeft(float faceDir)
 {
-    if (vel[0] >= 0) {
+    if (faceDir >= 0) {
         facingRight = false;
         facingLeft = true;
     } 
 }
 
-void Player::faceRight()
+void Player::faceRight(float faceDir)
 {
-    if (vel[0] < 0) {
+    if (faceDir < 0) {
         facingLeft = false;
         facingRight = true;
     }

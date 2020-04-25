@@ -1,6 +1,6 @@
 //Class:            Software Engineering 3350
 //Author:           Adrian Jay Telan
-//Last Modified:    26 Feb 2020
+//Last Modified:    24 Apr 2020
 //File:             adrianT.h
 //Project:          cute_as_hell
 //Main location:    main.cpp
@@ -67,6 +67,8 @@ public:
     int size;
     int damageOutput;
 
+    float faceDir;
+
     bool isRunning;
     bool isJumping;
     bool isGrounded;
@@ -86,8 +88,8 @@ public:
     void drawPlayer();
     void checkPlatfColl(Platform ground);
     void applyGravity(float gravVel);
-    void faceLeft();
-    void faceRight();
+    void faceLeft(float faceDir);
+    void faceRight(float faceDir);
     int applyPoison(int poisDam);
 
     //Constructors and Destructors

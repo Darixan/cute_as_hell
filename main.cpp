@@ -11,7 +11,7 @@
 //Date:             2013 to 2018
 //
 //Modified by:      Melanie Corral and Adrian Telan
-//Last modified:    1 March 2020
+//Last modified:    24 Apr 2020
 //
 //This program demonstrates the use of OpenGL and XWindows
 //
@@ -344,6 +344,9 @@ Vec groundVel = {0.0 ,0.0 ,0.0};
 int groundSize = 20;
 Platform ground(groundSize, groundPos, groundVel);
 
+Vec cielPos = {g.xres/10.0 + 150, g.yres/10.0 + 150, 0.0};
+Platform ciel(20, cielPos, groundVel);
+
 //function prototypes
 void initOpengl(void);
 void checkMouse(XEvent *e);
@@ -630,30 +633,47 @@ void checkMouse(XEvent *e)
 int checkKeys(XEvent *e)
 {
 	//keyboard input?
-	static int shift=0;
+	static int shift = 0;
+    static int a = 0;
+    static int d = 0;
+
+    int key = (XLookupKeysym(&e->xkey, 0) & 0x0000ffff);
 	if (e->type != KeyPress && e->type != KeyRelease)
 		return 0;
-	int key = (XLookupKeysym(&e->xkey, 0) & 0x0000ffff);
+
 	if (e->type == KeyRelease) {
 		if (key == XK_Shift_L || key == XK_Shift_R)
-			shift=0;
+			shift = 0;
+
+        if (key == XK_a || key == XK_d) {
+            if (key == XK_a)
+                a = 0;
+            if (key == XK_d)
+                d = 0;
+            if (a == 0 && d == 0)
+                player.run(0);
+        }
 		return 0;
 	}
+
 	if (key == XK_Shift_L || key == XK_Shift_R) {
-		shift=1;
+		shift = 1;
 		return 0;
 	}
+
 	switch (key) {
 
         //Adrian: Skeleton for Movement Controls (W,A,S,D)
         case XK_w:
             break;
         case XK_a:
+            a = 1;
             player.run(-10);
             break;
         case XK_s:
             break;
         case XK_d:
+            d = 1;
             player.run(10);
             break;
 
@@ -973,10 +993,23 @@ void checkRaindrops()
 
 void physics()
 {
+    int plSoles = player.pos[1] - player.size;
+    int plRight = player.pos[0] + player.size;
+    int plLeft = player.pos[0] - player.size;
+    int plTop = player.pos[1] + player.size;
+
     player.checkPlatfColl(ground);
-    player.applyGravity(1.5);
+    if (plTop >= ciel.bottom && plRight >= ciel.left &&
+			plLeft <= ciel.right) {
+		player.pos[1] = ciel.bottom - player.size;
+		player.isGrounded = false;
+		if (plSoles >= ciel.bottom)
+        	player.checkPlatfColl(ciel);
+    }
+    player.applyGravity(1.3);
     enemy.CollisonGround(ground);
     enemy.movement(ground);
+    player.pos[0] += player.vel[0];
     //player.run(5);
     //UpdatePlayerFacing(player, plBullet); 
 	/**/
@@ -1175,7 +1208,12 @@ void render()
     ground.pos[1] = groundPos[1];
     ground.size = groundSize;
     ground.drawPlatf(10);
-
+    
+    ciel.pos[0] = cielPos[0];
+    ciel.pos[1] = cielPos[1];
+    ciel.size = 20;
+    ciel.drawPlatf(5);
+    
     player.drawPlayer();
 
     //plBullet.pos[0] = playerPos[0];
