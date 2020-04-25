@@ -114,5 +114,9 @@ private:
 };
 
 extern void UpdatePlayerFacing(Player *player, Bullet *bullet);
+extern void CheckShot(Player *player);
+extern void CheckReload(Player *player);
+extern void UpdateBulletPhysics(Player *player);
+extern void UpdateBulletRendering(Player *player);
 
 #endif

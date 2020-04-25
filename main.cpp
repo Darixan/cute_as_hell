@@ -1,9 +1,3 @@
-//adrian: 3rd change made from branch 'adrian'
-//Melanie - 3rd Change made from Branch melanie
-//Melanie - 2nd Change made from Branch melanie
-//adrian: 2nd change made from branch 'adrian'
-//Melanie - Change made from Branch melanie
-//Adrian: change made from branch 'adrian'
 //
 //Class:            Software Engineering 3350
 //Program:          rainforest.cpp
@@ -18,7 +12,7 @@
 //Texture maps are displayed.
 //Press B to see bigfoot roaming his forest.
 //
-//
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -37,6 +31,8 @@
 #include "log.h"
 //#include "ppm.h"
 #include "fonts.h"
+
+using namespace std;
 
 //defined types
 typedef double Flt;
@@ -622,12 +618,12 @@ void checkMouse(XEvent *e)
 		if (e->xbutton.button==3) {
 			//Right button is down
 		}
-	if (savex != e->xbutton.x || savey != e->xbutton.y) {
-		//Mouse moved
-		savex = e->xbutton.x;
-		savey = e->xbutton.y;
-	}
-}
+	    if (savex != e->xbutton.x || savey != e->xbutton.y) {
+		    //Mouse moved
+		    savex = e->xbutton.x;
+		    savey = e->xbutton.y;
+	    }
+    }
 }
 
 int checkKeys(XEvent *e)
@@ -636,7 +632,8 @@ int checkKeys(XEvent *e)
 	static int shift = 0;
     static int a = 0;
     static int d = 0;
-    Bullet *b = &player.ammo[player.mag];
+    double ts;
+    //Bullet *b = &player.ammo[player.mag];
 
     int key = (XLookupKeysym(&e->xkey, 0) & 0x0000ffff);
 	if (e->type != KeyPress && e->type != KeyRelease)
@@ -654,6 +651,10 @@ int checkKeys(XEvent *e)
             if (a == 0 && d == 0)
                 player.run(0);
         }
+
+        if (key == XK_k)
+            player.isShooting = false;
+
 		return 0;
 	}
 
@@ -664,7 +665,7 @@ int checkKeys(XEvent *e)
 
 	switch (key) {
 
-        //Adrian: Skeleton for Movement Controls (W,A,S,D)
+        //adrian: Skeleton for Movement Controls (W,A,S,D)
         case XK_w:
             break;
         case XK_a:
@@ -678,18 +679,34 @@ int checkKeys(XEvent *e)
             player.run(10);
             break;
 
-        //Adrian: Skeleton for Shooting
+        //adrian: Skeleton for Shooting
         case XK_k:
            //Bullet *b = &player.ammo[player.mag];
+            /*
             if (player.mag < player.magMax) {
                 player.shoot(b);
                 player.mag++;
             }
+            */
+            player.isShooting = true;
+/*            timespec bt;
+            clock_gettime(CLOCK_REALTIME, &bt);
+            ts = timeDiff(&g.bulletTimer, &bt);
+            if (ts > 0.1) {
+                timeCopy(&g.bulletTimer, &bt);
+                CheckShot(&player);
+            }
+*/
+            break;
+        //adrian: skeleton for reloading
+        case XK_l:
+            //player.mag = 0;
+            CheckReload(&player);
             break;
 
-        //Adrian: Skeleton for Jumping
+        //adrian: Skeleton for Jumping
         case XK_space:
-            player.jump(10);
+            player.jump(15);
             break;
 
 		case XK_b:
@@ -1000,16 +1017,28 @@ void physics()
 {
     player.checkPlatfColl(ground);
     player.checkPlatfColl(ciel);
-    player.applyGravity(1.3);
+    player.applyGravity(1.5);
     player.pos[0] += player.vel[0];
 
-    //Adrian: bullet updates
+    //adrian: bullet updates
     //plBullet.pos[0] += plBullet.vel[0];
+    /*
     for (int i = 0; i < player.mag; i++) {
         Bullet *b = &player.ammo[i];
         b->pos[0] += b->vel[0];
+        b->pos[1] += b->vel[1];
     }
-
+    */
+    if (player.isShooting) {
+        timespec bt;
+        clock_gettime(CLOCK_REALTIME, &bt);
+        double ts = timeDiff(&g.bulletTimer, &bt);
+        if (ts > 0.1) {
+            timeCopy(&g.bulletTimer, &bt);
+            CheckShot(&player);
+        }
+    }
+    UpdateBulletPhysics(&player);
 
     enemy.CollisonGround(ground);
     enemy.movement(ground);
@@ -1171,6 +1200,7 @@ void render()
     ggprint8b(&r, 16, c, "Move - WASD");
     ggprint8b(&r, 16, c, "Space - Jump");
     ggprint8b(&r, 16, c, "Shoot - K");
+    ggprint8b(&r, 16, c, "Reload - L");
     ggprint8b(&r, 16, c, "C - Credits and Controls");
 
     Main_Menu(g.yres);
@@ -1220,10 +1250,12 @@ void render()
     //test.drawPlatf(10);
 
     //adrian: drawing bullets
+    /*
     for (int i = 0; i < player.mag; i++) {
         Bullet *b = &player.ammo[i];
         b->drawBullet();
     }
-
+    */ 
+    UpdateBulletRendering(&player);
 }
 

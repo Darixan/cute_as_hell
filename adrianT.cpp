@@ -58,7 +58,8 @@ void Bullet::drawBullet()
 
 void Bullet::moveBullet(int bulletSpeed)
 {
-    vel[0] = bulletSpeed;
+    vel[0] = (float)bulletSpeed;
+    vel[1] = (((((float) rand())/(float) RAND_MAX) - 0.5) * 5);
 }
 
 void Bullet::drawBulletTracer()
@@ -179,14 +180,12 @@ void Player::shoot(Bullet *plBullet)
 {
     if (isRolling || isHit)
         return;
-    isShooting = true;
     if (facingLeft) {
         plBullet->size = 5; 
         plBullet->pos[0] = pos[0] + size;
         plBullet->pos[1] = pos[1];
         plBullet->pos[2] = 0;
         plBullet->moveBullet(20);
-        isShooting = false;
         return;
     }
     if (facingRight) {
@@ -195,7 +194,6 @@ void Player::shoot(Bullet *plBullet)
         plBullet->pos[1] = pos[1];
         plBullet->pos[2] = 0;
         plBullet->moveBullet(-20);
-        isShooting = false;
         return;
     }
 }
@@ -237,16 +235,17 @@ void Player::checkPlatfColl(Platform ground)
     if (plTop < ground.bottom)
         return;
 
-    if (plTop <= ground.bottom + 5) {
+    if (plTop <= ground.bottom + ground.size) {
         if (plTop >= ground.bottom && plRight >= ground.left &&
                 plLeft <= ground.right) {
             pos[1] = ground.bottom - size;
+            vel[1] = vel[1] / 2.0;
             isGrounded = false;
         }
         return;
     }
 
-    if (plTop > ground.bottom + 5 && plTop <= ground.top) {
+    if (plTop > ground.bottom + ground.size && plTop <= ground.top) {
         if (plLeft <= ground.right && !(plRight <= ground.right))
             pos[0] = ground.right + size;
         if (plRight >= ground.left && !(plLeft >= ground.left)) 
@@ -279,7 +278,7 @@ void Player::applyGravity(float gravVel)
     if (isGrounded)
         vel[1] = 0;
     else if (!isGrounded) {
-        vel[1] -= gravVel;
+        vel[1] -= gravVel * gravVel;
         vel[1] *= 1.1;
         pos[1] += vel[1];
     }
@@ -320,7 +319,7 @@ Player::Player(int initHp, int playerSize, Vec initPos)
     mag = 0; 
     magMax = 12;
 
-    ammo = new Bullet[magMax];
+    ammo = new Bullet[magMax + 1];
 
     //int speed = 0;
     size = playerSize;
@@ -430,14 +429,43 @@ void DrawSquare(int yres)
 
 void UpdatePlayerFacing(Player *player, Bullet *bullet)
 {
-    if (player->facingLeft && !player->isShooting) {
+    if (player->facingLeft) {
         bullet->pos[0] = player->pos[0] + player->size;
         bullet->pos[1] = player->pos[1];
     }
 
-    if (player->facingRight && !player->isShooting) {
+    if (player->facingRight) {
         bullet->pos[0] = player->pos[0] - player->size;
         bullet->pos[1] = player->pos[1];
+    }
+}
+
+void CheckShot(Player *player)
+{
+    if (player->mag < player->magMax) {
+        player->shoot(&player->ammo[player->mag]);
+        player->mag++;
+    }
+}
+
+void CheckReload(Player *player)
+{
+    player->mag = 0;
+}
+
+void UpdateBulletPhysics(Player *player)
+{
+    for (int i = 0; i < player->magMax; i++) {
+        //player->ammo[i].drawBullet();
+        player->ammo[i].pos[0] += player->ammo[i].vel[0];
+        player->ammo[i].pos[1] += player->ammo[i].vel[1];
+    }
+}
+
+void UpdateBulletRendering(Player *player)
+{
+    for (int i = 0; i < player->magMax; i++) {
+        player->ammo[i].drawBullet();
     }
 }
 
