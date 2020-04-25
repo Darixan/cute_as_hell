@@ -253,7 +253,8 @@ void Player::checkPlatfColl(Platform ground)
     }
 
     if (plSoles <= ground.top && plRight >= ground.left && 
-            plLeft <= ground.right && plTop > ground.top) {
+            plLeft <= ground.right && plTop > ground.top && 
+            plSoles >= ground.bottom) {
         isGrounded = true;
 
         if (!(plRight <= ground.left && plLeft >= ground.right) && 

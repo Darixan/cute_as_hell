@@ -340,7 +340,7 @@ Vec groundVel = {0.0 ,0.0 ,0.0};
 int groundSize = 20;
 Platform ground(groundSize, groundPos, groundVel);
 
-Vec cielPos = {g.xres/10.0 + 150, g.yres/10.0 + 150, 0.0};
+Vec cielPos = {g.xres/10.0 + 150, g.yres/10.0 + 100, 0.0};
 Platform ciel(20, cielPos, groundVel);
 
 //function prototypes
