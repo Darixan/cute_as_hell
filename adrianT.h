@@ -33,6 +33,7 @@ public:
     void drawBulletTracer();
 
     //Constructors
+    Bullet();
     Bullet(int bulletSize, Vec initPos, Vec initVel);
 };
 
@@ -63,9 +64,15 @@ public:
     Vec pos;
     Vec vel; 
 
+
     //int speed;  
     int size;
     int damageOutput;
+
+    Bullet *ammo;
+
+    int mag;
+    int magMax;
 
     float faceDir;
 
@@ -82,7 +89,7 @@ public:
     //Public Methods
     void run(int runVel);
     void jump(int jumpVel);
-    void shoot(Bullet plBullet);
+    void shoot(Bullet *plBullet);
     void roll();
     void isDamaged(int damageInput);
     void drawPlayer();
@@ -106,6 +113,6 @@ private:
     int hp;
 };
 
-extern void UpdatePlayerFacing(Player player, Bullet bullet);
+extern void UpdatePlayerFacing(Player *player, Bullet *bullet);
 
 #endif

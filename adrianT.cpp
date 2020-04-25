@@ -67,6 +67,10 @@ void Bullet::drawBulletTracer()
 }
 
 //Constructors
+Bullet::Bullet()
+{
+}
+
 Bullet::Bullet(int bulletSize, Vec initPos, Vec initVel)
 {
     size = bulletSize;
@@ -171,19 +175,28 @@ void Player::jump(int jumpVel)
     }
 }
 
-void Player::shoot(Bullet plBullet)
+void Player::shoot(Bullet *plBullet)
 {
     if (isRolling || isHit)
         return;
+    isShooting = true;
     if (facingLeft) {
-        plBullet.pos[0] = pos[0] + size;
-        plBullet.pos[1] = pos[1];
-        plBullet.moveBullet(-10);
+        plBullet->size = 5; 
+        plBullet->pos[0] = pos[0] + size;
+        plBullet->pos[1] = pos[1];
+        plBullet->pos[2] = 0;
+        plBullet->moveBullet(20);
+        isShooting = false;
+        return;
     }
-    if (facingRight) { 
-        plBullet.pos[0] = pos[0] - size;
-        plBullet.pos[1] = pos[1];
-        plBullet.moveBullet(-10);
+    if (facingRight) {
+        plBullet->size = 5; 
+        plBullet->pos[0] = pos[0] - size;
+        plBullet->pos[1] = pos[1];
+        plBullet->pos[2] = 0;
+        plBullet->moveBullet(-20);
+        isShooting = false;
+        return;
     }
 }
 
@@ -221,18 +234,35 @@ void Player::checkPlatfColl(Platform ground)
     int plLeft = pos[0] - size;
     int plTop = pos[1] + size;
 
+    if (plTop < ground.bottom)
+        return;
+
+    if (plTop <= ground.bottom + 5) {
+        if (plTop >= ground.bottom && plRight >= ground.left &&
+                plLeft <= ground.right) {
+            pos[1] = ground.bottom - size;
+            isGrounded = false;
+        }
+        return;
+    }
+
+    if (plTop > ground.bottom + 5 && plTop <= ground.top) {
+        if (plLeft <= ground.right && !(plRight <= ground.right))
+            pos[0] = ground.right + size;
+        if (plRight >= ground.left && !(plLeft >= ground.left)) 
+            pos[0] = ground.left - size;
+    }
 
     if (plSoles <= ground.top && plRight >= ground.left && 
-            plLeft <= ground.right) {
+            plLeft <= ground.right && plTop > ground.top) {
         isGrounded = true;
+
         if (!(plRight <= ground.left && plLeft >= ground.right) && 
                 plSoles >= ground.bottom)
             pos[1] = ground.top + size;
+
     } else {
         isGrounded = false;
-        //vel[1] -= 0.2;
-        //vel[1] *= 1.1;
-        //pos[1] += vel[1];
     }
 
 /*
@@ -257,18 +287,18 @@ void Player::applyGravity(float gravVel)
 
 void Player::faceLeft(float faceDir)
 {
-    if (faceDir >= 0) {
-        facingRight = false;
+    if (faceDir >= 0) 
         facingLeft = true;
-    } 
+    else
+        facingLeft = false;
 }
 
 void Player::faceRight(float faceDir)
 {
-    if (faceDir < 0) {
-        facingLeft = false;
+    if (faceDir < 0) 
         facingRight = true;
-    }
+    else
+        facingRight = false;
 }
 
 int Player::applyPoison(int poisDam)
@@ -286,6 +316,11 @@ Player::Player(int initHp, int playerSize, Vec initPos)
     pos[0] = initPos[0];
     pos[1] = initPos[1];
     pos[2] = initPos[2];
+
+    mag = 0; 
+    magMax = 12;
+
+    ammo = new Bullet[magMax];
 
     //int speed = 0;
     size = playerSize;
@@ -393,16 +428,16 @@ void DrawSquare(int yres)
     glEnable(GL_TEXTURE_2D);
 }
 
-void UpdatePlayerFacing(Player player, Bullet bullet)
+void UpdatePlayerFacing(Player *player, Bullet *bullet)
 {
-    if (player.facingLeft) {
-        bullet.pos[0] = player.pos[0] + player.size;
-        bullet.pos[1] = player.pos[1];
+    if (player->facingLeft && !player->isShooting) {
+        bullet->pos[0] = player->pos[0] + player->size;
+        bullet->pos[1] = player->pos[1];
     }
 
-    if (player.facingRight) {
-        bullet.pos[0] = player.pos[0] - player.size;
-        bullet.pos[1] = player.pos[1];
+    if (player->facingRight && !player->isShooting) {
+        bullet->pos[0] = player->pos[0] - player->size;
+        bullet->pos[1] = player->pos[1];
     }
 }
 

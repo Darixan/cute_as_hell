@@ -636,6 +636,7 @@ int checkKeys(XEvent *e)
 	static int shift = 0;
     static int a = 0;
     static int d = 0;
+    Bullet *b = &player.ammo[player.mag];
 
     int key = (XLookupKeysym(&e->xkey, 0) & 0x0000ffff);
 	if (e->type != KeyPress && e->type != KeyRelease)
@@ -678,8 +679,12 @@ int checkKeys(XEvent *e)
             break;
 
         //Adrian: Skeleton for Shooting
-        case XK_e:
-            player.shoot(plBullet);
+        case XK_k:
+           //Bullet *b = &player.ammo[player.mag];
+            if (player.mag < player.magMax) {
+                player.shoot(b);
+                player.mag++;
+            }
             break;
 
         //Adrian: Skeleton for Jumping
@@ -993,35 +998,26 @@ void checkRaindrops()
 
 void physics()
 {
-    int plSoles = player.pos[1] - player.size;
-    int plRight = player.pos[0] + player.size;
-    int plLeft = player.pos[0] - player.size;
-    int plTop = player.pos[1] + player.size;
-
     player.checkPlatfColl(ground);
-    if (plTop >= ciel.bottom && plRight >= ciel.left &&
-			plLeft <= ciel.right) {
-		player.pos[1] = ciel.bottom - player.size;
-		player.isGrounded = false;
-		if (plSoles >= ciel.bottom)
-        	player.checkPlatfColl(ciel);
-    }
+    player.checkPlatfColl(ciel);
     player.applyGravity(1.3);
+    player.pos[0] += player.vel[0];
+
+    //Adrian: bullet updates
+    //plBullet.pos[0] += plBullet.vel[0];
+    for (int i = 0; i < player.mag; i++) {
+        Bullet *b = &player.ammo[i];
+        b->pos[0] += b->vel[0];
+    }
+
+
     enemy.CollisonGround(ground);
     enemy.movement(ground);
-    player.pos[0] += player.vel[0];
-    //player.run(5);
-    //UpdatePlayerFacing(player, plBullet); 
-	/**/
-    if (player.facingLeft) {
-        plBullet.pos[0] = player.pos[0] + player.size;
-        plBullet.pos[1] = player.pos[1];
-    }
-    if (player.facingRight) {
-        plBullet.pos[0] = player.pos[0] - player.size;
-        plBullet.pos[1] = player.pos[1];
-    }
-    /**/
+    
+    UpdatePlayerFacing(&player, &plBullet); 
+
+        
+
     if (g.showBigfoot)
 		moveBigfoot();
 	if (g.showRain)
@@ -1174,6 +1170,7 @@ void render()
 //Our space to test entity rendering
     ggprint8b(&r, 16, c, "Move - WASD");
     ggprint8b(&r, 16, c, "Space - Jump");
+    ggprint8b(&r, 16, c, "Shoot - K");
     ggprint8b(&r, 16, c, "C - Credits and Controls");
 
     Main_Menu(g.yres);
@@ -1221,6 +1218,12 @@ void render()
     plBullet.size = 5;
     plBullet.drawBullet();
     //test.drawPlatf(10);
+
+    //adrian: drawing bullets
+    for (int i = 0; i < player.mag; i++) {
+        Bullet *b = &player.ammo[i];
+        b->drawBullet();
+    }
 
 }
 
