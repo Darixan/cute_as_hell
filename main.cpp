@@ -180,8 +180,8 @@ Bullets *barr;
 	Global() {
 		logOpen();
 		done=0;
-		xres=800;
-		yres=600;
+		xres=1280;
+		yres=720;
 		showBigfoot=0;
 		forest=1;
 		silhouette=1;
@@ -243,7 +243,7 @@ public:
 		GLint att[] = { GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None };
 		//GLint att[] = { GLX_RGBA, GLX_DEPTH_SIZE, 24, None };
 		XSetWindowAttributes swa;
-		setupScreenRes(640, 480);
+		setupScreenRes(1280, 720);
 		dpy = XOpenDisplay(NULL);
 		if (dpy == NULL) {
 			printf("\n\tcannot connect to X server\n\n");
@@ -340,7 +340,7 @@ Vec groundVel = {0.0 ,0.0 ,0.0};
 int groundSize = 20;
 Platform ground(groundSize, groundPos, groundVel);
 
-Vec cielPos = {g.xres/10.0 + 150, g.yres/10.0 + 100, 0.0};
+Vec cielPos = {g.xres/10.0 + 150, g.yres/10.0 + 120, 0.0};
 Platform ciel(20, cielPos, groundVel);
 
 //function prototypes
@@ -632,7 +632,6 @@ int checkKeys(XEvent *e)
 	static int shift = 0;
     static int a = 0;
     static int d = 0;
-    double ts;
     //Bullet *b = &player.ammo[player.mag];
 
     int key = (XLookupKeysym(&e->xkey, 0) & 0x0000ffff);
@@ -1017,7 +1016,7 @@ void physics()
 {
     player.checkPlatfColl(ground);
     player.checkPlatfColl(ciel);
-    player.applyGravity(1.5);
+    player.applyGravity(1.5); 
     player.pos[0] += player.vel[0];
 
     //adrian: bullet updates
@@ -1039,6 +1038,13 @@ void physics()
         }
     }
     UpdateBulletPhysics(&player);
+
+    //adrian: bullet collision
+    for (int i = 0; i < player.magMax; i++) {
+        Bullet *b = &player.ammo[i];
+        //b->checkBulletColl(&player.ammo[i], ground);
+        b->checkBulletColl(&player.ammo[i], ciel); 
+    }
 
     enemy.CollisonGround(ground);
     enemy.movement(ground);
@@ -1234,7 +1240,7 @@ void render()
     ground.pos[0] = groundPos[0];
     ground.pos[1] = groundPos[1];
     ground.size = groundSize;
-    ground.drawPlatf(10);
+    ground.drawPlatf(20);
     
     ciel.pos[0] = cielPos[0];
     ciel.pos[1] = cielPos[1];

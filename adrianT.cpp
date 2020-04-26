@@ -67,6 +67,19 @@ void Bullet::drawBulletTracer()
 
 }
 
+void Bullet::checkBulletColl(Bullet *bullet, Platform platf)
+{
+    if (bullet->pos[1] < platf.top && bullet->pos[1] > platf.bottom &&
+            bullet->pos[0] > platf.left && bullet->pos[0] < platf.right) {
+        //deleteBullet();
+        bullet->vel[0] = 0;
+        bullet->vel[1] = 0;
+        bullet->inContact = true;
+    } else {
+        bullet->inContact = false;
+    }
+}
+
 //Constructors
 Bullet::Bullet()
 {
@@ -181,18 +194,42 @@ void Player::shoot(Bullet *plBullet)
     if (isRolling || isHit)
         return;
     if (facingLeft) {
-        plBullet->size = 5; 
         plBullet->pos[0] = pos[0] + size;
         plBullet->pos[1] = pos[1];
         plBullet->pos[2] = 0;
+        
+        plBullet->vel[0] = 0;
+        plBullet->vel[1] = 0;
+        plBullet->vel[2] = 0;
+        
+        plBullet->size = 5; 
+        plBullet->top = plBullet->pos[1] + plBullet->size;
+        plBullet->left = plBullet->pos[0] - plBullet->size;
+        plBullet->right = plBullet->pos[0] + plBullet->size;
+        plBullet->bottom = plBullet->pos[1] - plBullet->size;
+        
+        plBullet->inContact = false;
+
         plBullet->moveBullet(20);
         return;
     }
     if (facingRight) {
-        plBullet->size = 5; 
         plBullet->pos[0] = pos[0] - size;
         plBullet->pos[1] = pos[1];
         plBullet->pos[2] = 0;
+        
+        plBullet->vel[0] = 0;
+        plBullet->vel[1] = 0;
+        plBullet->vel[2] = 0;
+        
+        plBullet->size = 5; 
+        plBullet->top = plBullet->pos[1] + plBullet->size;
+        plBullet->left = plBullet->pos[0] - plBullet->size;
+        plBullet->right = plBullet->pos[0] + plBullet->size;
+        plBullet->bottom = plBullet->pos[1] - plBullet->size;
+        
+        plBullet->inContact = false;
+        
         plBullet->moveBullet(-20);
         return;
     }

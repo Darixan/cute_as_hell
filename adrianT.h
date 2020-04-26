@@ -15,6 +15,10 @@
 //Defined types
 typedef double Vec[3];
 
+class Bullet;
+class Platform;
+class Player;
+
 class Bullet {
 public:
     //Public Properties
@@ -27,10 +31,13 @@ public:
     int right;
     int bottom;
 
+    bool inContact;
+
     //Public Methods
     void drawBullet();
     void moveBullet(int speed);
     void drawBulletTracer();
+    void checkBulletColl(Bullet *bullet, Platform platf); 
 
     //Constructors
     Bullet();
@@ -45,8 +52,8 @@ public:
 
     int size;
     int top;
-    int center;
     int left;
+    int center;
     int right;
     int bottom;
 
