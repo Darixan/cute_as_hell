@@ -46,7 +46,7 @@ extern void set_to_non_blocking(const int sock);
 void Bullet::drawBullet() 
 {
     glDisable(GL_TEXTURE_2D);
-    glColor3f(0.0f, 0.0f, 1.0f);
+    glColor3f(0.0f, 1.0f, 0.0f);
     glBegin(GL_QUADS);
         glVertex2f(pos[0] - size, pos[1] + size);
         glVertex2f(pos[0] + size, pos[1] + size);
@@ -202,7 +202,7 @@ void Player::shoot(Bullet *plBullet)
         plBullet->vel[1] = 0;
         plBullet->vel[2] = 0;
         
-        plBullet->size = 5; 
+        plBullet->size = 2; 
         plBullet->top = plBullet->pos[1] + plBullet->size;
         plBullet->left = plBullet->pos[0] - plBullet->size;
         plBullet->right = plBullet->pos[0] + plBullet->size;
@@ -222,7 +222,7 @@ void Player::shoot(Bullet *plBullet)
         plBullet->vel[1] = 0;
         plBullet->vel[2] = 0;
         
-        plBullet->size = 5; 
+        plBullet->size = 2; 
         plBullet->top = plBullet->pos[1] + plBullet->size;
         plBullet->left = plBullet->pos[0] - plBullet->size;
         plBullet->right = plBullet->pos[0] + plBullet->size;
@@ -372,9 +372,10 @@ Player::Player(int initHp, int playerSize, Vec initPos)
     isRolling = false;
     isShooting = false;
     isHit = false;
-    isPoisoned = false;
     facingLeft = false;
     facingRight = true;
+    isPoisoned = false;
+    isReloading = true;
 }
 
 //Accessors
@@ -483,12 +484,18 @@ void CheckShot(Player *player)
     if (player->mag < player->magMax) {
         player->shoot(&player->ammo[player->mag]);
         player->mag++;
+    } else {
+        player->isShooting = false;
     }
 }
 
-void CheckReload(Player *player)
+void CheckReload(Player *player, bool pressed)
 {
-    player->mag = 0;
+    bool canReload = !player->isShooting && pressed;
+    if (canReload) 
+        player->isReloading = true;
+    else
+        player->isReloading = false;
 }
 
 void UpdateBulletPhysics(Player *player)

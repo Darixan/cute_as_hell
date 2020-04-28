@@ -160,7 +160,12 @@ class Global {
 public:
     int credits;
 int nbullets;
+
+//adrian: shooting related variables and structs
+bool reload;
+
 struct timespec bulletTimer;
+struct timespec reloadTimer;
 Bullets *barr;
 
 	int done;
@@ -632,6 +637,7 @@ int checkKeys(XEvent *e)
 	static int shift = 0;
     static int a = 0;
     static int d = 0;
+    static bool reload = false;
     //Bullet *b = &player.ammo[player.mag];
 
     int key = (XLookupKeysym(&e->xkey, 0) & 0x0000ffff);
@@ -653,6 +659,9 @@ int checkKeys(XEvent *e)
 
         if (key == XK_k)
             player.isShooting = false;
+
+        if (key == XK_l)
+            g.reload = false;
 
 		return 0;
 	}
@@ -700,7 +709,9 @@ int checkKeys(XEvent *e)
         //adrian: skeleton for reloading
         case XK_l:
             //player.mag = 0;
-            CheckReload(&player);
+            g.reload = true;
+            player.isReloading = true;
+            //CheckReload(&player, reload);
             break;
 
         //adrian: Skeleton for Jumping
@@ -1039,10 +1050,23 @@ void physics()
     }
     UpdateBulletPhysics(&player);
 
+    //adrian: timing on the reload
+    if (player.isReloading) {
+        timespec rt;
+        clock_gettime(CLOCK_REALTIME, &rt);
+        double ts = timeDiff(&g.reloadTimer, &rt);
+        CheckReload(&player, g.reload);
+        if (ts > 2) {
+            timeCopy(&g.bulletTimer, &rt);
+            player.mag = 0;
+        }
+        //player.isReloading = false;
+    }
+
     //adrian: bullet collision
     for (int i = 0; i < player.magMax; i++) {
         Bullet *b = &player.ammo[i];
-        //b->checkBulletColl(&player.ammo[i], ground);
+        b->checkBulletColl(&player.ammo[i], ground);
         b->checkBulletColl(&player.ammo[i], ciel); 
     }
 

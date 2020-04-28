@@ -7,7 +7,7 @@
 //
 //Contains declaration of player-related classes
 
-
+#include "melanieC.h"
 
 #ifndef _ADRIANT_H_
 #define _ADRIANT_H_
@@ -92,6 +92,7 @@ public:
     bool facingLeft;
     bool facingRight;
     bool isPoisoned;
+    bool isReloading;
  
     //Public Methods
     void run(int runVel);
@@ -122,7 +123,7 @@ private:
 
 extern void UpdatePlayerFacing(Player *player, Bullet *bullet);
 extern void CheckShot(Player *player);
-extern void CheckReload(Player *player);
+extern void CheckReload(Player *player, bool pressed);
 extern void UpdateBulletPhysics(Player *player);
 extern void UpdateBulletRendering(Player *player);
 
