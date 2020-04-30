@@ -4,7 +4,7 @@
 //Program: melanieC.cpp
 //Author: Melanie Corral
 //Date: 2020
-//Last modified 21 April 2020
+//Last modified 29 April 2020
 //
 //Completed:
 //Credit implementation
@@ -107,7 +107,7 @@ Enemy::Enemy(int enemyHP, int enemySize, Vec enemyPos)
     vel[2] = 0;
 
     isGrounded = false;
-
+    isHit = false;
 
     /*isWalking = true;	
       if (isWalking == true) {
@@ -120,7 +120,7 @@ Enemy::Enemy(int enemyHP, int enemySize, Vec enemyPos)
 void Enemy::PlayerHit(Player play)
 {
 	int HP = ehp;
-	if (play.isShooting == true) {
+	if (play.isHit == true) {
 	    HP -=5;
 			
 	}
@@ -143,6 +143,33 @@ void Enemy::CollisonGround(Platform ground)
 	pos[1] += vel[1];
     }
 
+}
+void Enemy::CheckBullet(Bullet *plBullet)
+{
+
+    int EnemyBottom = pos[1] - esize;
+    int EnemyRight = pos[0] + esize;
+    int EnemyLeft = pos[0] - esize;
+    int EnemyTop = pos[1] + esize;
+
+    if (plBullet->pos[0] <= EnemyLeft || plBullet->pos[0] >= EnemyRight || 
+		    plBullet->pos[1] >= EnemyTop || plBullet->pos[1] <= EnemyBottom) {
+	isHit = false;
+	plBullet->inContact = true;
+    } else { 
+	isHit = true;
+	plBullet->inContact = false;
+	plBullet->vel[0] = 0;
+	plBullet->vel[1] = 0;
+    }
+
+    if(isHit == true) {
+	    //NOT A DELETE
+	    //This moves enemy off screen
+	    pos[0] = vel[0]*0;
+	    pos[1] = vel[1]*0;
+	    //add score eventually
+    }
 }
 
 void Enemy::movement(Platform ground)

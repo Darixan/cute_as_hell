@@ -339,6 +339,7 @@ Bullet plBullet(5, playerPos, bulletVel);
 Vec enemyPos = {g.xres/1.5, g.yres/2.0, 0.0};
 Enemy enemy(50, 25, enemyPos);
 
+
 //****Platform Class Instantiation*****
 Vec groundPos = {g.xres/10.0, g.yres/10.0, 0.0};
 Vec groundVel = {0.0 ,0.0 ,0.0};
@@ -1070,9 +1071,14 @@ void physics()
         b->checkBulletColl(&player.ammo[i], ciel); 
     }
 
+    //Enemy: Ground and Bullet collison
     enemy.CollisonGround(ground);
     enemy.movement(ground);
-    
+    for (int i = 0; i < player.mag; i++) {
+    	enemy.CheckBullet(&player.ammo[i]);
+	
+    }
+
     UpdatePlayerFacing(&player, &plBullet); 
 
         
