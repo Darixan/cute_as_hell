@@ -638,7 +638,7 @@ int checkKeys(XEvent *e)
 	static int shift = 0;
     static int a = 0;
     static int d = 0;
-    static bool reload = false;
+    //static bool reload = false;
     //Bullet *b = &player.ammo[player.mag];
 
     int key = (XLookupKeysym(&e->xkey, 0) & 0x0000ffff);
