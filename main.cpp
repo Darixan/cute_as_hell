@@ -91,7 +91,6 @@ extern void PrintControls(int);
 
 //Class Quiz
 extern void PrintTasks(int);
-extern void Main_Menu(int);
 
 //Methods from 'adrianT.cpp'
 extern void DrawSquare(int);
@@ -1239,7 +1238,6 @@ void render()
     ggprint8b(&r, 16, c, "Reload - L");
     ggprint8b(&r, 16, c, "C - Credits and Controls");
 
-    Main_Menu(g.yres);
     enemy.drawEnemy();
 
     //Vec playerPos = {g.xres/2.0 , g.yres/2.0, 0.0};

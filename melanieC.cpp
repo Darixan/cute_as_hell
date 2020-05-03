@@ -39,58 +39,23 @@ void MC_Credits(int yres)
     r.center = 0;
     ggprint8b(&r, 16, c, "Melanie Corral");
 }
-void Main_Menu(int yres)
-{
-    Rect r;
-    unsigned int c = 0x00ff0000;
-   /* GLuint cuteashell;
-
-    Image image[1] = {
-	    "./images/cuteashell.png"};
-
-    glGenTextures(1, &r.cuteashell);
-    glBindTexture(GL_TEXTURE_2D, r.cuteashell);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-    w = image[0].width;
-    h = image[0].height;
-    unsigned char *ftData = buildAlphaData(&img[0]);
-    glTestImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, ftData);
-    free(ftData);
-
-*/
-
-    glDisable(GL_TEXTURE_2D);
-//    glBindTexture(GL_TEXTURE_2D, r.cuteashell);
-    glColor3f(0.7f, 0.0f, 0.0f);
-    glBegin(GL_QUADS);
-       glVertex2f(250, yres - 200);//upper right
-       glVertex2f(250, yres - 100);//upper left
-       glVertex2f(380, yres - 100);//
-       glVertex2f(380, yres - 200);//
-    glEnd();
-    glEnable(GL_TEXTURE_2D);
-    r.bot = yres - 165;
-    r.left = 275;
-    r.center = 0;
-    ggprint16(&r, 16, c, "test");
-}
 void Enemy::drawEnemy()
 {
     glDisable(GL_TEXTURE_2D);
     glColor3ub(242, 83, 0);
-    glBegin(GL_TRIANGLES);
-    //glVertex2f(-10.0f, -10.0f);
-    //glVertex2f(  0.0f, 20.0f);
-    //glVertex2f( 10.0f, -10.0f);
-    glVertex2f(pos[0], pos[1] + esize); //top vertex
-    glVertex2f(pos[0] - esize, pos[1] - esize); //left vertex
-    glVertex2f(pos[0] + esize, pos[1] - esize); //right vertex
+    if (isHit == false) {
+	    if (isDead) {
+    		glEnable(GL_TEXTURE_2D);
+		return;
+	    }
+    	glBegin(GL_TRIANGLES);
+    	glVertex2f(pos[0], pos[1] + esize); //top vertex
+    	glVertex2f(pos[0] - esize, pos[1] - esize); //left vertex
+    	glVertex2f(pos[0] + esize, pos[1] - esize); //right vertex
 
-    glEnd();
+    	glEnd();
+    }
     glEnable(GL_TEXTURE_2D);
-
-
 
 }
 Enemy::Enemy(int enemyHP, int enemySize, Vec enemyPos)
@@ -108,6 +73,7 @@ Enemy::Enemy(int enemyHP, int enemySize, Vec enemyPos)
 
     isGrounded = false;
     isHit = false;
+    isDead = false;
 
     /*isWalking = true;	
       if (isWalking == true) {
@@ -156,19 +122,18 @@ void Enemy::CheckBullet(Bullet *plBullet)
 		    plBullet->pos[1] >= EnemyTop || plBullet->pos[1] <= EnemyBottom) {
 	isHit = false;
 	plBullet->inContact = true;
-    } else { 
+    }
+     else { 
 	isHit = true;
+	isDead = true;
 	plBullet->inContact = false;
+	
+    }
+    if(isHit == true) {
+      	pos[0] = vel[0]*0;
+      	pos[1] = vel[1]*0;
 	plBullet->vel[0] = 0;
 	plBullet->vel[1] = 0;
-    }
-
-    if(isHit == true) {
-	    //NOT A DELETE
-	    //This moves enemy off screen
-	    pos[0] = vel[0]*0;
-	    pos[1] = vel[1]*0;
-	    //add score eventually
     }
 }
 

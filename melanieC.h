@@ -37,6 +37,7 @@ class Enemy {
 	bool isGrounded;
 	bool isAttacking;
 	bool isHit;
+	bool isDead;
 
 	void movement(Platform ground);
 	void Direction();
