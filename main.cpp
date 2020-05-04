@@ -695,15 +695,15 @@ int checkKeys(XEvent *e)
 		case XK_b:
 			g.showBigfoot ^= 1;
 			if (g.showBigfoot) {
-				bigfoot.pos[0] = -250.0;
+			    bigfoot.pos[0] = -250.0;
 			}
 			break;
 		case XK_j:
 			g.deflection ^= 1;
 			break;
-		case XK_f:
-			g.forest ^= 1;
-			break;
+		//case XK_f:
+			//g.forest ^= 1;
+			//break;
 		case XK_o:
 			g.silhouette ^= 1;
 			printf("silhouette: %i\n", g.silhouette);
@@ -711,15 +711,15 @@ int checkKeys(XEvent *e)
 		case XK_t:
 			g.trees ^= 1;
 			break;
-		case XK_u:
-			g.showUmbrella ^= 1;
-			break;
+		//case XK_u:
+			//g.showUmbrella ^= 1;
+			//break;
 		case XK_p:
 			umbrella.shape ^= 1;
 			break;
-		case XK_r:
-			g.showRain ^= 1;
-			break;
+		//case XK_r:
+			//g.showRain ^= 1;
+			//break;
         case XK_c:
             if (g.credits == 1) {
                 g.credits = 0;
@@ -1063,7 +1063,7 @@ void physics()
         
 
     if (g.showBigfoot)
-		moveBigfoot();
+		//moveBigfoot();
 	if (g.showRain)
 		checkRaindrops();
 }
@@ -1200,12 +1200,12 @@ void render()
 	r.bot = g.yres - 20;
 	r.left = 10;
 	r.center = 0;
-	ggprint8b(&r, 16, c, "B - Bigfoot");
+	ggprint8b(&r, 16, c, "B - Title");
 	//ggprint8b(&r, 16, c, "F - Forest");
 	//ggprint8b(&r, 16, c, "O - Silhouette");
 	//ggprint8b(&r, 16, c, "T - Trees");
 	//ggprint8b(&r, 16, c, "U - Umbrella");
-	ggprint8b(&r, 16, c, "R - Rain");
+	//ggprint8b(&r, 16, c, "R - Rain");
 	//ggprint8b(&r, 16, c, "J - Deflection");
 	//ggprint8b(&r, 16, c, "N - Sounds");
 
@@ -1216,7 +1216,7 @@ void render()
     ggprint8b(&r, 16, c, "Space - Jump");
     ggprint8b(&r, 16, c, "Shoot - K");
     ggprint8b(&r, 16, c, "Reload - L");
-    ggprint8b(&r, 16, c, "C - Credits and Controls");
+    ggprint8b(&r, 16, c, "C - Credits");
 
     enemy.drawEnemy();
     enemy1.drawEnemy();
@@ -1236,14 +1236,14 @@ void render()
         MC_Credits(g.yres);
         AT_Credits(g.yres);
         //PrintTasks(g.yres);
-        PrintControls(g.yres);
+        //PrintControls(g.yres);
     	//serverHandling(argc, argvr);   
 
-        Rect board;
-        board.bot = g.yres - 240;
-        board.left = 10;
-        board.center = 0;
-	    ggprint8b(&board, 16, 0x00ff0000, ptrScore);
+        //Rect board;
+        //board.bot = g.yres - 240;
+        //board.left = 10;
+        //board.center = 0;
+	    //ggprint8b(&board, 16, 0x00ff0000, ptrScore);
     }
 
     ground.pos[0] = groundPos[0];
