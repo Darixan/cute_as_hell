@@ -321,7 +321,7 @@ public:
 //Note: Hey I changed your players spawn position
 //you originally had him in the middle (2.0)
 Vec playerPos = {g.xres/5.0 , g.yres/2.0, 0.0};
-Vec healthPos = {g.xres, g.yres, 0.0};
+Vec healthPos = {(float) g.xres, (float) g.yres, 0.0};
 Player player(100, 25, playerPos);
 
 //*****Bullet Class Instantiations*****
