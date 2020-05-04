@@ -323,6 +323,7 @@ public:
 Vec playerPos = {g.xres/5.0 , g.yres/2.0, 0.0};
 Vec healthPos = {(float) g.xres, (float) g.yres, 0.0};
 Vec gameOverScr = {g.xres/2.0, g.yres/2.0, 0.0};
+Vec ammoUIPos = {g.xres - 75.0, g.yres - 100.0, 0.0};
 Player player(100, 25, playerPos);
 
 //*****Bullet Class Instantiations*****
@@ -1284,6 +1285,7 @@ void render()
         player.hp = 0;
     }
     PrintGameOverScreen(&player, gameOverScr); 
+    player.drawAmmo(&player, ammoUIPos); 
     
 }
 

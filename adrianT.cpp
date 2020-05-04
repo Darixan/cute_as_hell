@@ -388,9 +388,30 @@ void Player::drawHealthBar(Vec pos)
     glEnable(GL_TEXTURE_2D);
 }
 
-void Player::drawAmmo(Player player)
+void Player::drawAmmo(Player *player, Vec pos)
 {
-    
+    //pos indicates center
+    //ammo ui background
+    glDisable(GL_TEXTURE_2D);
+    glColor3f(0.0f, 0.0f, 0.0f);
+    glBegin(GL_QUADS);
+        glVertex2f(pos[0] - 20, pos[1] + 80);
+        glVertex2f(pos[0] + 20, pos[1] + 80);
+        glVertex2f(pos[0] + 20, pos[1] - 60);
+        glVertex2f(pos[0] - 20, pos[1] - 60);
+    glEnd();
+    glEnable(GL_TEXTURE_2D);
+    for (int i = player->mag; i < player->magMax; i++) {    
+        glDisable(GL_TEXTURE_2D);
+        glColor3f(1.0f, 1.0f, 0.0f);
+        glBegin(GL_QUADS);
+            glVertex2f(pos[0] - 15, pos[1] - 45 - (-i * 10));
+            glVertex2f(pos[0] + 15, pos[1] - 45 - (-i * 10));
+            glVertex2f(pos[0] + 15, pos[1] - 50 - (-i * 10));
+            glVertex2f(pos[0] - 15, pos[1] - 50 - (-i * 10));
+        glEnd();
+        glEnable(GL_TEXTURE_2D);
+    }
 }
 
 int Player::applyPoison(int poisDam)
@@ -410,7 +431,7 @@ Player::Player(int initHp, int playerSize, Vec initPos)
     pos[2] = initPos[2];
 
     mag = 0; 
-    magMax = 12;
+    magMax = 13;
 
     ammo = new Bullet[magMax + 1];
 
