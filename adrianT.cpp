@@ -267,7 +267,8 @@ void Player::isDamaged(Enemy enem)
     if (enem.isAttacking && (distToEnem <= 100 || distToEnem >= -100))
         hp -= enem.damage;
     if (hp <= 0) {
-        //Dead
+        hp = 0;
+        isDead = true;
     }
 }
 
@@ -385,6 +386,11 @@ void Player::drawHealthBar(Vec pos)
     glEnable(GL_TEXTURE_2D);
 }
 
+void Player::drawAmmo(Player player)
+{
+    
+}
+
 int Player::applyPoison(int poisDam)
 {
     if (poisDam == 0)
@@ -423,6 +429,7 @@ Player::Player(int initHp, int playerSize, Vec initPos)
     facingRight = true;
     isPoisoned = false;
     isReloading = true;
+    isDead = false;
 }
 
 //Accessors
@@ -564,7 +571,7 @@ void UpdateBulletRendering(Player *player)
 void PrintGameOverScreen(Player *player, Vec pos)
 {
     //pos values give the center of the game over popup
-    if (player->hp <= 0) {
+    if (player->isDead || player->hp <= 0) {
         glDisable(GL_TEXTURE_2D);
         //outline
         glColor3f(0.0f, 0.0f, 0.0f);    

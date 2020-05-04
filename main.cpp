@@ -700,7 +700,9 @@ int checkKeys(XEvent *e)
 			}
 			break;
 		case XK_j:
-			player.hp -= 1;
+            if (player.hp > 0) {
+			    player.hp -= 1;
+            }
 			break;
 		//case XK_f:
 			//g.forest ^= 1;

@@ -95,6 +95,7 @@ public:
     bool facingRight;
     bool isPoisoned;
     bool isReloading;
+    bool isDead;
  
     //Public Methods
     void run(int runVel);
@@ -108,6 +109,7 @@ public:
     void faceLeft(float faceDir);
     void faceRight(float faceDir);
     void drawHealthBar(Vec pos);
+    void drawAmmo(Player player);
     int applyPoison(int poisDam);
 
     //Constructors and Destructors
