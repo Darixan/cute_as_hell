@@ -107,6 +107,7 @@ public:
     void applyGravity(float gravVel);
     void faceLeft(float faceDir);
     void faceRight(float faceDir);
+    void drawHealthBar(Vec pos);
     int applyPoison(int poisDam);
 
     //Constructors and Destructors
@@ -128,5 +129,4 @@ extern void CheckShot(Player *player);
 extern void CheckReload(Player *player, bool pressed);
 extern void UpdateBulletPhysics(Player *player);
 extern void UpdateBulletRendering(Player *player);
-
 #endif

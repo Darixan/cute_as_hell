@@ -358,6 +358,31 @@ void Player::faceRight(float faceDir)
         facingRight = true;
 }
 
+void Player::drawHealthBar(Vec pos)
+{
+    //pos is the top right vertex
+    //health bar outline
+    glDisable(GL_TEXTURE_2D);
+    glColor3f(0.0f, 0.0f, 0.0f);
+    glBegin(GL_QUADS);
+        glVertex2f(pos[0] - 55, pos[1] - 15);
+        glVertex2f(pos[0] - 5, pos[1] - 15);
+        glVertex2f(pos[0] - 5, pos[1] - 5 - hp * 2);
+        glVertex2f(pos[0] - 55, pos[1] - 5- hp * 2);
+    glEnd();
+    //health pool
+    glEnable(GL_TEXTURE_2D);
+    glDisable(GL_TEXTURE_2D);
+    glColor3f(0.0f, 1.0f, 0.0f);
+    glBegin(GL_QUADS);
+        glVertex2f(pos[0] - 50, pos[1] - 20);
+        glVertex2f(pos[0] - 10, pos[1] - 20);
+        glVertex2f(pos[0] - 10, pos[1] - hp * 2);
+        glVertex2f(pos[0] - 50, pos[1] - hp * 2);
+    glEnd();
+    glEnable(GL_TEXTURE_2D);
+}
+
 int Player::applyPoison(int poisDam)
 {
     if (poisDam == 0)
