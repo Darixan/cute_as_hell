@@ -395,8 +395,8 @@ void Player::drawAmmo(Player *player, Vec pos)
     glDisable(GL_TEXTURE_2D);
     glColor3f(0.0f, 0.0f, 0.0f);
     glBegin(GL_QUADS);
-        glVertex2f(pos[0] - 20, pos[1] + 80);
-        glVertex2f(pos[0] + 20, pos[1] + 80);
+        glVertex2f(pos[0] - 20, pos[1] + 85);
+        glVertex2f(pos[0] + 20, pos[1] + 85);
         glVertex2f(pos[0] + 20, pos[1] - 60);
         glVertex2f(pos[0] - 20, pos[1] - 60);
     glEnd();

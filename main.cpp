@@ -323,7 +323,7 @@ public:
 Vec playerPos = {g.xres/5.0 , g.yres/2.0, 0.0};
 Vec healthPos = {(float) g.xres, (float) g.yres, 0.0};
 Vec gameOverScr = {g.xres/2.0, g.yres/2.0, 0.0};
-Vec ammoUIPos = {g.xres - 75.0, g.yres - 100.0, 0.0};
+Vec ammoUIPos = {g.xres - 80.0, g.yres - 100.0, 0.0};
 Player player(100, 25, playerPos);
 
 //*****Bullet Class Instantiations*****
@@ -635,8 +635,10 @@ int checkKeys(XEvent *e)
         if (key == XK_k)
             player.isShooting = false;
 
-        if (key ==XK_l)
+        if (key ==XK_l) {
             g.reload = false;
+            player.isReloading = false;
+        }
 
 		return 0;
 	}
@@ -1028,18 +1030,21 @@ void physics()
         }
     }
     UpdateBulletPhysics(&player);
-
     //adrian: timing on the reload
+    static int counter = 2;
+    if (!player.isReloading)
+        counter = 2;
     if (player.isReloading) {
         timespec rt;
         clock_gettime(CLOCK_REALTIME, &rt);
         double ts = timeDiff(&g.reloadTimer, &rt);
         CheckReload(&player, g.reload);
-        if (ts > 2) {
-            timeCopy(&g.bulletTimer, &rt);
-            player.mag = 0;
+        if (ts > 0.5) {
+            timeCopy(&g.reloadTimer, &rt);
+            counter--;
+            if (counter == 0)
+                player.mag = 0;
         }
-        //player.isReloading = false;
     }
 
     //adrian: bullet collision
@@ -1221,7 +1226,7 @@ void render()
     ggprint8b(&r, 16, c, "Move - WASD");
     ggprint8b(&r, 16, c, "Space - Jump");
     ggprint8b(&r, 16, c, "Shoot - K");
-    ggprint8b(&r, 16, c, "Reload - L");
+    ggprint8b(&r, 16, c, "Reload - L (Hold)");
     ggprint8b(&r, 16, c, "C - Credits");
 
     enemy.drawEnemy();
