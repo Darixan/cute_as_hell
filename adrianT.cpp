@@ -379,8 +379,8 @@ void Player::drawHealthBar(Vec pos)
     glBegin(GL_QUADS);
         glVertex2f(pos[0] - 50, pos[1] - 20);
         glVertex2f(pos[0] - 10, pos[1] - 20);
-        glVertex2f(pos[0] - 10, pos[1] - hp * 2);
-        glVertex2f(pos[0] - 50, pos[1] - hp * 2);
+        glVertex2f(pos[0] - 10, pos[1] - (hp * 2));
+        glVertex2f(pos[0] - 50, pos[1] - (hp * 2));
     glEnd();
     glEnable(GL_TEXTURE_2D);
 }
@@ -558,6 +558,36 @@ void UpdateBulletRendering(Player *player)
 {
     for (int i = 0; i < player->magMax; i++) {
         player->ammo[i].drawBullet();
+    }
+}
+
+void PrintGameOverScreen(Player *player, Vec pos)
+{
+    //pos values give the center of the game over popup
+    if (player->hp <= 0) {
+        glDisable(GL_TEXTURE_2D);
+        //outline
+        glColor3f(0.0f, 0.0f, 0.0f);    
+        glBegin(GL_QUADS);
+            glVertex2f(pos[0] - 100, pos[1] + 50);
+            glVertex2f(pos[0] + 100, pos[1] + 50);
+            glVertex2f(pos[0] + 100, pos[1] - 50);
+            glVertex2f(pos[0] - 100, pos[1] - 50);
+        glEnd();
+        //fill
+        glColor3f(1.0f, 0.0f, 0.0f);    
+        glBegin(GL_QUADS);
+            glVertex2f(pos[0] - 95, pos[1] + 45);
+            glVertex2f(pos[0] + 95, pos[1] + 45);
+            glVertex2f(pos[0] + 95, pos[1] - 45);
+            glVertex2f(pos[0] - 95, pos[1] - 45);
+        glEnd();
+        glEnable(GL_TEXTURE_2D);
+        Rect gameOver;
+        gameOver.bot = pos[1];
+        gameOver.left = pos[0];
+        gameOver.center = 1;
+        ggprint12(&gameOver, 16, 0x00000000, "Game Over");
     }
 }
 

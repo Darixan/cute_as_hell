@@ -129,4 +129,5 @@ extern void CheckShot(Player *player);
 extern void CheckReload(Player *player, bool pressed);
 extern void UpdateBulletPhysics(Player *player);
 extern void UpdateBulletRendering(Player *player);
+extern void PrintGameOverScreen(Player *player, Vec pos);
 #endif
