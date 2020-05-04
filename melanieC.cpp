@@ -121,12 +121,10 @@ void Enemy::CheckBullet(Bullet *plBullet)
     if (plBullet->pos[0] <= EnemyLeft || plBullet->pos[0] >= EnemyRight || 
 		    plBullet->pos[1] >= EnemyTop || plBullet->pos[1] <= EnemyBottom) {
 	isHit = false;
-	plBullet->inContact = true;
     }
      else { 
 	isHit = true;
 	isDead = true;
-	plBullet->inContact = false;
 	
     }
     if(isHit == true) {
