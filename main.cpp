@@ -1267,7 +1267,7 @@ void render()
     //plBullet.pos[1] = playerPos[1];
     plBullet.size = 5;
     plBullet.inContact = false;
-    plBullet.drawBullet();
+    plBullet.drawBullet(player);
     //test.drawPlatf(10);
 
     //adrian: drawing bullets
@@ -1279,6 +1279,10 @@ void render()
     */ 
     UpdateBulletRendering(&player);
     player.drawHealthBar(healthPos);
+    if (player.pos[1] < 0) {
+        player.isDead = true;
+        player.hp = 0;
+    }
     PrintGameOverScreen(&player, gameOverScr); 
     
 }

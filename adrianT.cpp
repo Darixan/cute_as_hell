@@ -43,12 +43,12 @@ extern void set_to_non_blocking(const int sock);
 //Bullet Class method definitions
 
 //Public Methods
-void Bullet::drawBullet() 
+void Bullet::drawBullet(Player player) 
 {
     glDisable(GL_TEXTURE_2D);
     glColor3f(0.0f, 1.0f, 0.0f);
     //if (vel[0] != 0) {
-    if (!inContact) {
+    if (!inContact && player.hp > 0 && !player.isDead) {
         glBegin(GL_QUADS);
             glVertex2f(pos[0] - size, pos[1] + size);
             glVertex2f(pos[0] + size, pos[1] + size);
@@ -274,15 +274,17 @@ void Player::isDamaged(Enemy enem)
 
 void Player::drawPlayer()
 {
-    glDisable(GL_TEXTURE_2D);
-    glColor3f(0.4f, 0.1f, 0.1f);
-    glBegin(GL_QUADS);
-        glVertex2f(pos[0] - size, pos[1] - size);
-        glVertex2f(pos[0] - size, pos[1] + size);
-        glVertex2f(pos[0] + size, pos[1] + size);
-        glVertex2f(pos[0] + size, pos[1] - size);
-    glEnd();
-    glEnable(GL_TEXTURE_2D);
+    if (!isDead & (hp > 0)) {
+        glDisable(GL_TEXTURE_2D);
+        glColor3f(0.4f, 0.1f, 0.1f);
+        glBegin(GL_QUADS);
+            glVertex2f(pos[0] - size, pos[1] - size);
+            glVertex2f(pos[0] - size, pos[1] + size);
+            glVertex2f(pos[0] + size, pos[1] + size);
+            glVertex2f(pos[0] + size, pos[1] - size);
+        glEnd();
+        glEnable(GL_TEXTURE_2D);
+    }
 }
 
 void Player::checkPlatfColl(Platform ground)
@@ -564,7 +566,7 @@ void UpdateBulletPhysics(Player *player)
 void UpdateBulletRendering(Player *player)
 {
     for (int i = 0; i < player->magMax; i++) {
-        player->ammo[i].drawBullet();
+        player->ammo[i].drawBullet(*player);
     }
 }
 

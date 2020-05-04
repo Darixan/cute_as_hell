@@ -35,7 +35,7 @@ public:
     bool inContact;
 
     //Public Methods
-    void drawBullet();
+    void drawBullet(Player player);
     void moveBullet(int speed, float mov);
     void drawBulletTracer();
     void checkBulletColl(Bullet *bullet, Platform platf); 
