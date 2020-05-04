@@ -1003,6 +1003,8 @@ void physics()
     player.applyGravity(1.5); 
     player.pos[0] += player.vel[0];
 
+    //player.isDamaged(enemy);
+
     //adrian: bullet updates
     //plBullet.pos[0] += plBullet.vel[0];
     /*

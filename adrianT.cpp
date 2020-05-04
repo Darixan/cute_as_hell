@@ -59,9 +59,9 @@ void Bullet::drawBullet()
     glEnable(GL_TEXTURE_2D);
 }
 
-void Bullet::moveBullet(int bulletSpeed)
+void Bullet::moveBullet(int bulletSpeed, float pVel)
 {
-    vel[0] = (float)bulletSpeed;
+    vel[0] = (float)bulletSpeed + pVel/2.0;
     vel[1] = (((((float) rand())/(float) RAND_MAX) - 0.5) * 5);
 }
 
@@ -230,7 +230,7 @@ void Player::shoot(Bullet *plBullet)
         
         plBullet->inContact = false;
 
-        plBullet->moveBullet(-20);
+        plBullet->moveBullet(-20, vel[0]);
         return;
     }
     if (facingRight) {
@@ -250,7 +250,7 @@ void Player::shoot(Bullet *plBullet)
         
         plBullet->inContact = false;
         
-        plBullet->moveBullet(20);
+        plBullet->moveBullet(20, vel[0]);
         return;
     }
 }
@@ -261,9 +261,11 @@ void Player::roll()
         return;
 }
 
-void Player::isDamaged(int damageInput)
+void Player::isDamaged(Enemy enem)
 {
-    hp -= damageInput;
+    float distToEnem = pos[0] - enem.pos[0];
+    if (enem.isAttacking && (distToEnem <= 100 || distToEnem >= -100))
+        hp -= enem.damage;
     if (hp <= 0) {
         //Dead
     }

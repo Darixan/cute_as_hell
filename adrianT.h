@@ -36,7 +36,7 @@ public:
 
     //Public Methods
     void drawBullet();
-    void moveBullet(int speed);
+    void moveBullet(int speed, float mov);
     void drawBulletTracer();
     void checkBulletColl(Bullet *bullet, Platform platf); 
     void checkBulletColl(Bullet *bullet, Enemy enem);
@@ -101,7 +101,7 @@ public:
     void jump(int jumpVel);
     void shoot(Bullet *plBullet);
     void roll();
-    void isDamaged(int damageInput);
+    void isDamaged(Enemy enem);
     void drawPlayer();
     void checkPlatfColl(Platform ground);
     void applyGravity(float gravVel);
