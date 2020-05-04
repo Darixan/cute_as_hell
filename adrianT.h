@@ -15,6 +15,7 @@
 //Defined types
 typedef double Vec[3];
 
+class Enemy;
 class Bullet;
 class Platform;
 class Player;
@@ -38,6 +39,7 @@ public:
     void moveBullet(int speed);
     void drawBulletTracer();
     void checkBulletColl(Bullet *bullet, Platform platf); 
+    void checkBulletColl(Bullet *bullet, Enemy enem);
 
     //Constructors
     Bullet();

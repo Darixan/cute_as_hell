@@ -47,12 +47,15 @@ void Bullet::drawBullet()
 {
     glDisable(GL_TEXTURE_2D);
     glColor3f(0.0f, 1.0f, 0.0f);
-    glBegin(GL_QUADS);
-        glVertex2f(pos[0] - size, pos[1] + size);
-        glVertex2f(pos[0] + size, pos[1] + size);
-        glVertex2f(pos[0] + size, pos[1] - size);
-        glVertex2f(pos[0] - size, pos[1] - size);
-    glEnd();
+    //if (vel[0] != 0) {
+    if (!inContact) {
+        glBegin(GL_QUADS);
+            glVertex2f(pos[0] - size, pos[1] + size);
+            glVertex2f(pos[0] + size, pos[1] + size);
+            glVertex2f(pos[0] + size, pos[1] - size);
+            glVertex2f(pos[0] - size, pos[1] - size);
+        glEnd();
+    }
     glEnable(GL_TEXTURE_2D);
 }
 
@@ -71,14 +74,31 @@ void Bullet::checkBulletColl(Bullet *bullet, Platform platf)
 {
     if (bullet->pos[1] < platf.top && bullet->pos[1] > platf.bottom &&
             bullet->pos[0] > platf.left && bullet->pos[0] < platf.right) {
-        //deleteBullet();
         bullet->vel[0] = 0;
         bullet->vel[1] = 0;
         bullet->inContact = true;
-    } else {
-        bullet->inContact = false;
-    }
+    } //else {
+        //bullet->inContact = false;
+    //}
 }
+
+void Bullet::checkBulletColl(Bullet *bullet, Enemy enem)
+{
+    int enemTop = enem.pos[1] + enem.esize;
+    int enemSole = enem.pos[1] - enem.esize;
+    int enemLeft = enem.pos[0] - enem.esize;
+    int enemRight = enem.pos[0] + enem.esize;
+
+    if (bullet->pos[1] < enemTop && bullet->pos[1] > enemSole &&
+            bullet->pos[0] > enemLeft && bullet->pos[0] < enemRight) {
+        bullet->vel[0] = 0;
+        bullet->vel[1] = 0;
+        bullet->inContact = true;
+    } //else {
+        //bullet->inContact = false;
+    //}
+}
+
 
 //Constructors
 Bullet::Bullet()
@@ -194,26 +214,6 @@ void Player::shoot(Bullet *plBullet)
     if (isRolling || isHit)
         return;
     if (facingLeft) {
-        plBullet->pos[0] = pos[0] + size;
-        plBullet->pos[1] = pos[1];
-        plBullet->pos[2] = 0;
-        
-        plBullet->vel[0] = 0;
-        plBullet->vel[1] = 0;
-        plBullet->vel[2] = 0;
-        
-        plBullet->size = 2; 
-        plBullet->top = plBullet->pos[1] + plBullet->size;
-        plBullet->left = plBullet->pos[0] - plBullet->size;
-        plBullet->right = plBullet->pos[0] + plBullet->size;
-        plBullet->bottom = plBullet->pos[1] - plBullet->size;
-        
-        plBullet->inContact = false;
-
-        plBullet->moveBullet(20);
-        return;
-    }
-    if (facingRight) {
         plBullet->pos[0] = pos[0] - size;
         plBullet->pos[1] = pos[1];
         plBullet->pos[2] = 0;
@@ -229,8 +229,28 @@ void Player::shoot(Bullet *plBullet)
         plBullet->bottom = plBullet->pos[1] - plBullet->size;
         
         plBullet->inContact = false;
-        
+
         plBullet->moveBullet(-20);
+        return;
+    }
+    if (facingRight) {
+        plBullet->pos[0] = pos[0] + size;
+        plBullet->pos[1] = pos[1];
+        plBullet->pos[2] = 0;
+        
+        plBullet->vel[0] = 0;
+        plBullet->vel[1] = 0;
+        plBullet->vel[2] = 0;
+        
+        plBullet->size = 2; 
+        plBullet->top = plBullet->pos[1] + plBullet->size;
+        plBullet->left = plBullet->pos[0] - plBullet->size;
+        plBullet->right = plBullet->pos[0] + plBullet->size;
+        plBullet->bottom = plBullet->pos[1] - plBullet->size;
+        
+        plBullet->inContact = false;
+        
+        plBullet->moveBullet(20);
         return;
     }
 }
@@ -325,17 +345,17 @@ void Player::applyGravity(float gravVel)
 void Player::faceLeft(float faceDir)
 {
     if (faceDir >= 0) 
-        facingLeft = true;
-    else
         facingLeft = false;
+    else
+        facingLeft = true;
 }
 
 void Player::faceRight(float faceDir)
 {
     if (faceDir < 0) 
-        facingRight = true;
-    else
         facingRight = false;
+    else
+        facingRight = true;
 }
 
 int Player::applyPoison(int poisDam)
@@ -469,12 +489,12 @@ void DrawSquare(int yres)
 void UpdatePlayerFacing(Player *player, Bullet *bullet)
 {
     if (player->facingLeft) {
-        bullet->pos[0] = player->pos[0] + player->size;
+        bullet->pos[0] = player->pos[0] - player->size;
         bullet->pos[1] = player->pos[1];
     }
 
     if (player->facingRight) {
-        bullet->pos[0] = player->pos[0] - player->size;
+        bullet->pos[0] = player->pos[0] + player->size;
         bullet->pos[1] = player->pos[1];
     }
 }

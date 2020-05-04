@@ -1040,7 +1040,12 @@ void physics()
         Bullet *b = &player.ammo[i];
         b->checkBulletColl(&player.ammo[i], ground);
         b->checkBulletColl(&player.ammo[i], ciel); 
+        b->checkBulletColl(&player.ammo[i], enemy);
+        b->checkBulletColl(&player.ammo[i], enemy1);
     }
+
+    plBullet.checkBulletColl(&plBullet, ciel);
+
 
     //Enemy: Ground and Bullet collison
     enemy.CollisonGround(ground);
@@ -1255,6 +1260,7 @@ void render()
     //plBullet.pos[0] = playerPos[0];
     //plBullet.pos[1] = playerPos[1];
     plBullet.size = 5;
+    plBullet.inContact = false;
     plBullet.drawBullet();
     //test.drawPlatf(10);
 
