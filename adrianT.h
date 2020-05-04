@@ -73,7 +73,7 @@ public:
     Vec pos;
     Vec vel; 
 
-
+    int hp;
     //int speed;  
     int size;
     int damageOutput;
@@ -121,7 +121,7 @@ public:
 
 private:
     //Private Properties
-    int hp;
+    //int hp;
 };
 
 extern void UpdatePlayerFacing(Player *player, Bullet *bullet);

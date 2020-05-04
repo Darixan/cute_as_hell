@@ -633,7 +633,7 @@ int checkKeys(XEvent *e)
         if (key == XK_k)
             player.isShooting = false;
 
-        if (key == XK_l)
+        if (key ==XK_l)
             g.reload = false;
 
 		return 0;
@@ -699,7 +699,7 @@ int checkKeys(XEvent *e)
 			}
 			break;
 		case XK_j:
-			g.deflection ^= 1;
+			player.hp -= 1;
 			break;
 		//case XK_f:
 			//g.forest ^= 1;
@@ -1208,7 +1208,7 @@ void render()
 	//ggprint8b(&r, 16, c, "T - Trees");
 	//ggprint8b(&r, 16, c, "U - Umbrella");
 	//ggprint8b(&r, 16, c, "R - Rain");
-	//ggprint8b(&r, 16, c, "J - Deflection");
+	ggprint8b(&r, 16, c, "J - Damage player");
 	//ggprint8b(&r, 16, c, "N - Sounds");
 
 

@@ -369,8 +369,8 @@ void Player::drawHealthBar(Vec pos)
     glBegin(GL_QUADS);
         glVertex2f(pos[0] - 55, pos[1] - 15);
         glVertex2f(pos[0] - 5, pos[1] - 15);
-        glVertex2f(pos[0] - 5, pos[1] - 5 - hp * 2);
-        glVertex2f(pos[0] - 55, pos[1] - 5- hp * 2);
+        glVertex2f(pos[0] - 5, pos[1] - 5 - 100 * 2);
+        glVertex2f(pos[0] - 55, pos[1] - 5- 100 * 2);
     glEnd();
     //health pool
     glEnable(GL_TEXTURE_2D);
