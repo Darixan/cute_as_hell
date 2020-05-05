@@ -42,7 +42,7 @@ void MC_Credits(int yres)
 void Enemy::drawEnemy()
 {
     glDisable(GL_TEXTURE_2D);
-    glColor3ub(242, 83, 0);
+    glColor3ub(163, 31, 106);
     if (isHit == false) {
 	    if (isDead) {
     		glEnable(GL_TEXTURE_2D);
@@ -122,9 +122,11 @@ void Enemy::CollisonGround(Platform ground)
 	    EnemyLeft <= ground.right) {
 	isGrounded = true;
 	vel[1] = 0;
+	if ((EnemyRight > ground.left || EnemyLeft < ground.right) && EnemyBottom >= ground.bottom)
+		pos[1] = ground.top + esize;
     } else { 
 	isGrounded = false;
-	vel[1] = -6.80;
+	vel[1] = -5.80;
 	pos[1] += vel[1];
     }
 

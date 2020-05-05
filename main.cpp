@@ -339,7 +339,7 @@ Bullet plBullet(5, playerPos, bulletVel);
 //Enemy dps[numEnemiesOnScreen];
 //Enemy healers[numEnemiesOnScreen];
 Vec enemyPos = {g.xres/1.5, g.yres/2.0, 0.0};
-Vec enemyPos1 = {g.xres/2.9, g.yres/2.0, 0.0};
+Vec enemyPos1 = {g.xres/3.1, g.yres/2.0, 0.0};
 Enemy enemy(50, 25, enemyPos);
 Enemy enemy1(50, 25, enemyPos1);
 
@@ -1062,10 +1062,10 @@ void physics()
     //Enemy: Ground and Bullet collison
     enemy.CollisonGround(ground);
     enemy1.CollisonGround(ciel);
+    enemy1.CollisonGround(ground);
     enemy.movement(ground);
     enemy.meleeBehavior(player,ground);
-    //Note the collisonGround is a bit jacked up.
-    //enemy1.meleeBehavior(player,ciel);
+    enemy1.meleeBehavior(player,ciel);
     
     for (int i = 0; i < player.mag; i++) {
     	enemy.CheckBullet(&player.ammo[i]);
