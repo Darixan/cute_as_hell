@@ -82,6 +82,25 @@ Enemy::Enemy(int enemyHP, int enemySize, Vec enemyPos)
 
       }*/
 }
+void Enemy::meleeBehavior(Player player, Platform ground)
+{
+    int distToPlayer = player.pos[0] - pos[0];
+    int dirToPlayer = 0;
+    float runningVel = 0;
+    if (distToPlayer <= 0)
+        dirToPlayer = -1;
+    if (distToPlayer > 0)
+        dirToPlayer = 1;
+    if ((distToPlayer >= -250 && distToPlayer <= 250) || seesPlayer) {
+        if (distToPlayer >= -25 && distToPlayer <= 25)
+            runningVel = 0;
+        else
+            runningVel = dirToPlayer * 5;
+        pos[0] += runningVel;
+        //seesPlayer = true;
+    } else if (!seesPlayer)
+        movement(ground);
+}
 
 void Enemy::PlayerHit(Player play)
 {

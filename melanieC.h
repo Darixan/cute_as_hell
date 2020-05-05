@@ -38,8 +38,10 @@ class Enemy {
 	bool isAttacking;
 	bool isHit;
 	bool isDead;
+	bool seesPlayer;
 
 	void movement(Platform ground);
+	void meleeBehavior(Player player, Platform ground);
 	void Direction();
 	void drawEnemy();
 	void CollisonGround(Platform ground);

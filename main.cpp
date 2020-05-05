@@ -5,7 +5,7 @@
 //Date:             2013 to 2018
 //
 //Modified by:      Melanie Corral and Adrian Telan
-//Last modified:    24 Apr 2020
+//Last modified:    5 May 2020
 //
 //This program demonstrates the use of OpenGL and XWindows
 //
@@ -339,7 +339,7 @@ Bullet plBullet(5, playerPos, bulletVel);
 //Enemy dps[numEnemiesOnScreen];
 //Enemy healers[numEnemiesOnScreen];
 Vec enemyPos = {g.xres/1.5, g.yres/2.0, 0.0};
-Vec enemyPos1 = {g.xres/3.5, g.yres/1.0, 0.0};
+Vec enemyPos1 = {g.xres/2.9, g.yres/2.0, 0.0};
 Enemy enemy(50, 25, enemyPos);
 Enemy enemy1(50, 25, enemyPos1);
 
@@ -1063,10 +1063,13 @@ void physics()
     enemy.CollisonGround(ground);
     enemy1.CollisonGround(ciel);
     enemy.movement(ground);
+    enemy.meleeBehavior(player,ground);
+    //Note the collisonGround is a bit jacked up.
+    //enemy1.meleeBehavior(player,ciel);
+    
     for (int i = 0; i < player.mag; i++) {
     	enemy.CheckBullet(&player.ammo[i]);
     	enemy1.CheckBullet(&player.ammo[i]);
-	
     }
 
     UpdatePlayerFacing(&player, &plBullet); 
