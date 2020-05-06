@@ -277,7 +277,7 @@ public:
 	void setTitle() {
 		//Set the window title bar.
 		XMapWindow(dpy, win);
-		XStoreName(dpy, win, "3350 - Animation Template");
+		XStoreName(dpy, win, "3350 - CUTE as HELL");
 	}
 	void setupScreenRes(const int w, const int h) {
 		g.xres = w;
@@ -360,6 +360,9 @@ int checkKeys(XEvent *e);
 void init();
 void physics(void);
 void render(void);
+extern void menu();
+extern int nbuttons;
+//extern Button button[];
 
 //score variables
 int Scores = 0; 
@@ -376,6 +379,7 @@ int main()
 	clock_gettime(CLOCK_REALTIME, &timePause);
 	clock_gettime(CLOCK_REALTIME, &timeStart);
 	int done = 0;
+
 	while (!done) {
 		while (x11.getXPending()) {
 			//XEvent e;
@@ -1078,7 +1082,6 @@ void physics()
         
 
     if (g.showBigfoot)
-		//moveBigfoot();
 	if (g.showRain)
 		checkRaindrops();
 }
@@ -1153,6 +1156,8 @@ void render()
 		glEnd();
 	}
 	if (g.showBigfoot) {
+		menu();
+		glClearColor(1.0, 1.0, 1.0, 1.0);
 		glPushMatrix();
 		glTranslatef(bigfoot.pos[0], bigfoot.pos[1], bigfoot.pos[2]);
 		if (!g.silhouette) {

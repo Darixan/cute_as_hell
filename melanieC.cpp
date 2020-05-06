@@ -25,6 +25,7 @@
 #include "fonts.h"
 #include "melanieC.h"
 #include "rainforest.h"
+#define MAXBUTTONS 1
 
 void MC_Credits(int yres)
 {
@@ -35,6 +36,52 @@ void MC_Credits(int yres)
     r.center = 0;
     ggprint8b(&r, 16, c, "Melanie Corral");
 }
+typedef struct t_button {
+	Rect r;
+	char text[32];
+	unsigned int text_color;
+} Button;
+
+void menu()
+{
+        glClearColor(1.0, 1.0, 1.0, 1.0);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        Rect r;
+        
+
+        //size, position, & color
+        r.width = 160;
+        r.height = 60;
+        r.left = 220;
+        r.bot = 70;
+        r.right =
+         r.left + r.width;
+        r.top = r.bot +
+         r.height;
+        r.centerx = (r.left +
+         r.right) / 2;
+        r.centery = (r.bot +
+         r.top) / 2;
+        int text_color = 0x36C6FF;
+
+                glColor3f(1.0f, 1.0f, 0.0f);
+
+                glBegin(GL_QUADS);
+                        glVertex2i(r.left,  r.bot);
+                        glVertex2i(r.left,  r.top);
+                        glVertex2i(r.right, r.top);
+                        glVertex2i(r.right, r.bot);
+                glEnd();
+
+                r.left = r.centerx;
+                r.bot  = r.centery-8;
+                r.center = 1;
+
+                ggprint16(&r, 16, text_color, "Press B");
+
+}
+
+
 void Enemy::drawEnemy()
 {
     glDisable(GL_TEXTURE_2D);

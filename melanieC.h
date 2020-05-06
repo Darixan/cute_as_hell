@@ -22,6 +22,7 @@ typedef struct function {
 typedef double Vec[3];
 
 //extern void function(void);
+void menu();
 
 class Enemy {
     public:
