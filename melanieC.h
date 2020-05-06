@@ -4,7 +4,7 @@
 //Program: melanieC.h
 //Author: Melanie Corral
 //Date: 2020
-//Last modified: 29 April 2020
+//Last modified: 5 May 2020
 //
 //This is the header file for Enemy properties
 //

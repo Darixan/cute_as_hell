@@ -4,14 +4,10 @@
 //Program: melanieC.cpp
 //Author: Melanie Corral
 //Date: 2020
-//Last modified 29 April 2020
+//Last modified 5 May 2020
 //
-//Completed:
-//Credit implementation
-//Added Lab3 functions
-//To do list:
-//Enemy AI attack/health
-//Different Enemy types
+//This file contains the code for most of the
+//Enemy functionality and rendering
 
 #include <stdio.h>
 #include <string.h>
@@ -106,8 +102,7 @@ void Enemy::PlayerHit(Player play)
 {
 	int HP = ehp;
 	if (play.isHit == true) {
-	    HP -=5;
-			
+	    HP -=5;			
 	}
 }
 
@@ -148,7 +143,7 @@ void Enemy::CheckBullet(Bullet *plBullet)
 	isDead = true;
 	
     }
-    if(isHit == true) {
+    if (isHit == true) {
       	pos[0] = vel[0]*0;
       	pos[1] = vel[1]*0;
 	plBullet->vel[0] = 0;
@@ -161,13 +156,14 @@ void Enemy::movement(Platform ground)
     pos[0] += vel[0]*2;
     pos[1] += vel[1];
 
-    if(((pos[0] - esize) < ground.left + 200 && vel[0] < 0.0) ||
+    if (((pos[0] - esize) < ground.left + 200 && vel[0] < 0.0) ||
 	    (pos[0] + esize > ground.right && vel[0] > 0.0))
 	vel[0] = -vel[0];
+
     /*	if(((pos[0] - esize) < ground.right+200 && vel[1] < 0.0) || 
 	(pos[1]+esize >= ground.right && vel[1] > 0.0))
 	vel[0] = -vel[0] *2; 
-     *	if ((pos[0] < -140.0 && vel[0] < 0.0) ||
+     if ((pos[0] < -140.0 && vel[0] < 0.0) ||
      (pos[0] >= esize + 140.0 &&
      vel[0] > 0.0)) {
 
@@ -240,6 +236,5 @@ void set_to_non_blocking(const int sock)
 	exit(EXIT_FAILURE);
     }
 }
-
 
 /////////////////////////////////////////////////////////////////////

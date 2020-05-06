@@ -80,8 +80,8 @@ extern void AT_Credits(int);
 //Leaderboards Page Method Prototypes
 int argc = 3;
 char argvh[] = {"odin.cs.csub.edu"};                    //host
-char argvpr[] = {"/~mcorral/3350/scores.php?param=1"};  //read from page
-char argvpw[] = {"/~mcorral/3350/scores.php?param=2"};  //write to page
+char argvpr[] = {"/~mcorral/3350/scores.php?param=Scores"};  //read from page
+char argvpw[] = {"/~mcorral/3350/scores.php?param=Scores"};  //write to page
 char* argvr[] = {NULL, argvh, argvpr};
 char* argvw[] = {NULL, argvh, argvpw};
 extern char *serverHandling(int argc, char* argv[], char score[]);
@@ -362,6 +362,7 @@ void physics(void);
 void render(void);
 
 //score variables
+int Scores = 0; 
 char score[256];
 char *ptrScore;
 int main()
@@ -1231,6 +1232,7 @@ void render()
     ggprint8b(&r, 16, c, "Shoot - K");
     ggprint8b(&r, 16, c, "Reload - L (Hold)");
     ggprint8b(&r, 16, c, "C - Credits");
+    ggprint8b(&r, 16, c, "Score: %i sec", Scores/100);
 
     enemy.drawEnemy();
     enemy1.drawEnemy();
@@ -1272,6 +1274,8 @@ void render()
     
     player.drawPlayer();
 
+    if (player.isDead == false)
+	    Scores++;
     //plBullet.pos[0] = playerPos[0];
     //plBullet.pos[1] = playerPos[1];
     plBullet.size = 5;
