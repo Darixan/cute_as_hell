@@ -320,7 +320,7 @@ public:
 //*****Player Class Instantiation*****
 //Note: Hey I changed your players spawn position
 //you originally had him in the middle (2.0)
-Vec playerPos = {g.xres/5.0 , g.yres/2.0, 0.0};
+Vec playerPos = {g.xres/7.0 , g.yres/2.0, 0.0};
 Vec healthPos = {(float) g.xres, (float) g.yres, 0.0};
 Vec gameOverScr = {g.xres/2.0, g.yres/2.0, 0.0};
 Vec ammoUIPos = {g.xres - 80.0, g.yres - 100.0, 0.0};
@@ -352,6 +352,9 @@ Platform ground(groundSize, groundPos, groundVel);
 
 Vec cielPos = {g.xres/10.0 + 150, g.yres/10.0 + 120, 0.0};
 Platform ciel(20, cielPos, groundVel);
+
+Vec startPos = {g.xres/10.0 - 10, g.yres/10.0 + 230, 0.0};
+Platform start(20, startPos, groundVel);
 
 //function prototypes
 void initOpengl(void);
@@ -708,9 +711,6 @@ int checkKeys(XEvent *e)
 			}
 			break;
 		case XK_j:
-            if (player.hp > 0) {
-			    player.hp -= 1;
-            }
 			break;
 		//case XK_f:
 			//g.forest ^= 1;
@@ -1011,6 +1011,7 @@ void physics()
 {
     player.checkPlatfColl(ground);
     player.checkPlatfColl(ciel);
+    player.checkPlatfColl(start);
     player.applyGravity(1.5); 
     player.pos[0] += player.vel[0];
 
@@ -1057,11 +1058,13 @@ void physics()
         Bullet *b = &player.ammo[i];
         b->checkBulletColl(&player.ammo[i], ground);
         b->checkBulletColl(&player.ammo[i], ciel); 
+        b->checkBulletColl(&player.ammo[i], start); 
         b->checkBulletColl(&player.ammo[i], enemy);
         b->checkBulletColl(&player.ammo[i], enemy1);
     }
 
     plBullet.checkBulletColl(&plBullet, ciel);
+    //plBullet.checkBulletColl(&plBullet, start);
 
 
     //Enemy: Ground and Bullet collison
@@ -1071,6 +1074,14 @@ void physics()
     enemy.movement(ground);
     enemy.meleeBehavior(player,ground);
     enemy1.meleeBehavior(player,ciel);
+    enemy.Attack(player);
+    enemy1.Attack(player);
+
+    if (enemy.isAttacking == true || enemy1.isAttacking == true) {
+	    if (player.hp > 0) {
+		    player.hp -=1;
+	    }
+    }
     
     for (int i = 0; i < player.mag; i++) {
     	enemy.CheckBullet(&player.ammo[i]);
@@ -1226,7 +1237,6 @@ void render()
 	//ggprint8b(&r, 16, c, "T - Trees");
 	//ggprint8b(&r, 16, c, "U - Umbrella");
 	//ggprint8b(&r, 16, c, "R - Rain");
-	ggprint8b(&r, 16, c, "J - Damage player");
 	//ggprint8b(&r, 16, c, "N - Sounds");
 
 
@@ -1275,7 +1285,12 @@ void render()
     ciel.pos[0] = cielPos[0];
     ciel.pos[1] = cielPos[1];
     ciel.size = 20;
-    ciel.drawPlatf(5);
+    ciel.drawPlatf(10);
+    
+    start.pos[0] = startPos[0];
+    start.pos[1] = startPos[1];
+    start.size = 20;
+    start.drawPlatf(5);
     
     player.drawPlayer();
 
@@ -1300,6 +1315,9 @@ void render()
     if (player.pos[1] < 0) {
         player.isDead = true;
         player.hp = 0;
+    }
+    if (player.hp == 0) {
+        player.isDead = true;
     }
     PrintGameOverScreen(&player, gameOverScr); 
     player.drawAmmo(&player, ammoUIPos); 

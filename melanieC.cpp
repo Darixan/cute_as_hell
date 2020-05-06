@@ -134,7 +134,7 @@ void Enemy::meleeBehavior(Player player, Platform ground)
         dirToPlayer = -1;
     if (distToPlayer > 0)
         dirToPlayer = 1;
-    if ((distToPlayer >= -250 && distToPlayer <= 250) || seesPlayer) {
+    if ((distToPlayer >= -150 && distToPlayer <= 150) || seesPlayer) {
         if (distToPlayer >= -25 && distToPlayer <= 25)
             runningVel = 0;
         else
@@ -145,30 +145,44 @@ void Enemy::meleeBehavior(Player player, Platform ground)
         movement(ground);
 }
 
-void Enemy::PlayerHit(Player play)
+void Enemy::Attack(Player player)
 {
-	int HP = ehp;
-	if (play.isHit == true) {
-	    HP -=5;			
-	}
+        int Pright = player.pos[0] + player.size;
+        int Pleft = player.pos[0] - player.size;
+        int Pbottom = player.pos[1] - player.size;
+        int Ptop = player.pos[1] + player.size;
+        int Eleft = pos[0] - esize;
+        int Eright = pos[0] + esize;
+        int Etop = pos[1] + esize;
+        int Ebottom = pos[1] - esize;
+        //int HP = ehp;
+        if ( Pright >= Eleft && Pleft <= Eright && Pbottom <= Etop && Ptop >= Ebottom ) {
+            isAttacking = true;
+        } else
+            isAttacking = false;
 }
 
 void Enemy::CollisonGround(Platform ground)
 {
 
     int EnemyBottom = pos[1] - esize;
+    int EnemyTop = pos[1] + esize;
     int EnemyRight = pos[0] + esize;
     int EnemyLeft = pos[0] - esize;
+    
+    if ( EnemyTop < ground.bottom)
+	    return;
 
     if (EnemyBottom <= ground.top && EnemyRight >= ground.left &&
 	    EnemyLeft <= ground.right) {
 	isGrounded = true;
 	vel[1] = 0;
-	if ((EnemyRight > ground.left || EnemyLeft < ground.right) && EnemyBottom >= ground.bottom)
-		pos[1] = ground.top + esize;
+	if ((EnemyRight > ground.left || EnemyLeft < ground.right) 
+             && EnemyBottom >= ground.bottom)
+            pos[1] = ground.top + esize;
     } else { 
 	isGrounded = false;
-	vel[1] = -5.80;
+	vel[1] -= 1;
 	pos[1] += vel[1];
     }
 

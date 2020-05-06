@@ -47,7 +47,7 @@ class Enemy {
 	void drawEnemy();
 	void CollisonGround(Platform ground);
 	void CheckBullet(Bullet *plBullet);
-	void PlayerHit(Player play);
+	void Attack(Player play);
 
 	Enemy(int enemyHP, int enemySize, Vec enemyPos);
     private:
