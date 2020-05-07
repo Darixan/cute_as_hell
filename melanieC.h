@@ -46,6 +46,7 @@ class Enemy {
 	void Direction();
 	void drawEnemy();
 	void CollisonGround(Platform ground);
+	void PlatformMovement(Platform ground);
 	void CheckBullet(Bullet *plBullet);
 	void Attack(Player play);
 

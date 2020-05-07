@@ -8,6 +8,10 @@
 //
 //This file contains the code for most of the
 //Enemy functionality and rendering
+//Including Enemy movement, Enemy rendering
+//Enemy Player Detection, and EnemyAttack
+//
+//
 
 #include <stdio.h>
 #include <string.h>
@@ -217,8 +221,11 @@ void Enemy::movement(Platform ground)
     pos[0] += vel[0]*2;
     pos[1] += vel[1];
 
-    if (((pos[0] - esize) < ground.left + 200 && vel[0] < 0.0) ||
-	    (pos[0] + esize > ground.right && vel[0] > 0.0))
+    int EnemyRight = pos[0] + esize;
+    int EnemyLeft = pos[0] - esize;
+    
+    if ((EnemyLeft < ground.left + 200 && vel[0] < 0.0) ||
+	    (EnemyRight > ground.right && vel[0] > 0.0))
 	vel[0] = -vel[0];
 
     /*	if(((pos[0] - esize) < ground.right+200 && vel[1] < 0.0) || 
@@ -239,7 +246,17 @@ void Enemy::movement(Platform ground)
      }
      */
 }
+void Enemy::PlatformMovement(Platform ground)
+{	
+    ground.pos[0] += ground.vel[0]*2;
+    ground.pos[1] += ground.vel[1]*2;
+    int PlatBottom = ground.pos[1] - ground.size;
+    int PlatTop = ground.pos[1] + ground.size;
 
+    if ((PlatBottom < 10 && ground.vel[1] < 0.0) ||
+	    (PlatTop > 400 && ground.vel[1] > 0.0))
+	ground.vel[1] -= ground.vel[1];
+}
 /////////////////////////lab3.cpp functions///////////////////////////
 
 BIO *ssl_setup_bio(void)

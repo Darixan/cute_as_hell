@@ -1014,6 +1014,7 @@ void physics()
     player.checkPlatfColl(start);
     player.applyGravity(1.5); 
     player.pos[0] += player.vel[0];
+    enemy.PlatformMovement(start);
 
     //player.isDamaged(enemy);
 
