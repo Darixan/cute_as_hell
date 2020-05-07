@@ -316,11 +316,11 @@ void Player::checkPlatfColl(Platform ground)
 
     if (plSoles <= ground.top && plRight >= ground.left && 
             plLeft <= ground.right && plTop > ground.top && 
-            plSoles >= ground.bottom) {
+            plSoles >= ground.bottom - 20) {
         isGrounded = true;
 
         if (!(plRight <= ground.left && plLeft >= ground.right) && 
-                plSoles >= ground.bottom)
+                plSoles >= ground.bottom - 20)
             pos[1] = ground.top + size;
 
     } else {
